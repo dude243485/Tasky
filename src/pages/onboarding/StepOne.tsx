@@ -17,6 +17,7 @@ const StepOne = () => {
             <button
             onClick = {() => navigate("/onboarding/step-2")}
             >
+                Next
             </button>
         </section>
     );
