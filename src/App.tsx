@@ -3,6 +3,7 @@ import StepOne from "./pages/onboarding/StepOne"
 import StepTwo from "./pages/onboarding/StepTwo"
 import StepThree from "./pages/onboarding/StepThree"
 import OnboardingLayout from "./pages/onboarding/OnboardingLayout"
+import SignIn from "./pages/signIn/SignIn"
 
 function App() {
 
@@ -14,8 +15,8 @@ function App() {
           <Route path="step-2" element = {<StepTwo />} />
           <Route path = "step-3" element = {<StepThree />} />
         </Route>
-        {/* <Route path = "/login" element = {} />
-        <Route path = "/signup" element = {} />
+        <Route path = "/signin" element = {<SignIn />} />
+        {/* <Route path = "/signup" element = {} />
         <Route path = "/dashboard" element= {} /> */}
     </Routes>
     
