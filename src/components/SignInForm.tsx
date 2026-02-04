@@ -1,7 +1,9 @@
 import InputField from "./InputField";
-import { useState, type ChangeEvent } from "react";
-import { Mail } from "lucide-react";
+import PasswordInputField from "./PasswordInputField";
+import { useState, type ChangeEvent, type FormEvent } from "react";
+import { FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
 import { type SignInFormData, type FormErrors } from "../types/forms";
+
 
 const SignInForm: React.FC = () => {
     //form data state
@@ -35,11 +37,77 @@ const SignInForm: React.FC = () => {
     //submitting state
     const [isSubmitting , setIsSubmitting] = useState<boolean>(false)
 
+    //remember me state
+    const [remember, setRemember] = useState<boolean>(false);
+
+    //to handle click on forgot password
+    const handleForgotPassword  = () => {
+        console.log("You clicked Forgot Password")
+    }
+
+    //to handle remember me
+    const toggleRemember = () => {
+        setRemember(prev => !prev)
+    }
+
+    const validateForm = () : FormErrors => {
+        const newErrors : FormErrors = {}
+
+        //email validation
+        if (!formData.email.trim()){
+            newErrors.email = "Email is required" ;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Please enter a valid email address";
+        }
+
+        //password validation
+        if (!formData.password) {
+            newErrors.password = "Password is required";
+        } else if (formData.password.length < 7) {
+            newErrors.password = "Password must be at least 7 characters";
+        } else if (! /(?=.*[A-Za-z])/.test(formData.password)) {
+            newErrors.email = "Please enter a valid email address";
+        }
+
+        return newErrors;
+    }
+
+
+    const handleSubmit = (e : FormEvent<HTMLFormElement>) : Promise<void> | void => {
+        e.preventDefault()
+        
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
+        setIsSubmitting(true);
+
+        try {
+            alert("Form was submitted");
+            setFormData({email : "", password: ""});
+        } catch (error) {
+            console.error("Login error : ", error);
+            setErrors({ submit : "Login failed. please try again"});
+            setIsSubmitting(false);
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
+    const hasErrors = () : boolean => {
+        return Object.values(errors).some(error => !!error);
+    }
 
     return (
         <div className="max-w-md mx-auto mt-2 bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400">
             <form 
                 aria-label = "Login form"
+                onSubmit = { handleSubmit }
+                noValidate
+
             >
                 {/*Email Field*/}
                 <InputField 
@@ -56,7 +124,60 @@ const SignInForm: React.FC = () => {
                     Icon = { Mail }
                  />
 
+                <PasswordInputField 
+                    label = "Password"
+                    name = "password"
+                    placeholder = "Enter your password"
+                    value = { formData.password }
+                    onChange = { handleChange }
+                    error = { errors.password }
+                    required = { true }
+                    autoComplete = "current-password"
+                    disabled = { isSubmitting }
+                    Icon = { FingerprintPattern }
+                 />
+
+                {errors.submit && (
+                    <div 
+                    role = "alert"
+                    className = "mb-6 p-3 bg-brand-error-100 border-brand-error-400">
+                        <div className="flex text-[9px]">
+                            <TriangleAlert  className="size-5 text-brand-error-400" />
+                            <p className = "text-brand-error-600 ml-3 "> {errors.submit} </p>
+                        </div>
+                    </div>
+                )}
+
+                <div className="flex justify-between items-center text-[12px] mb-4">
+                    <div className = "flex gap-2 items-center">
+                        <button 
+                        onClick = { toggleRemember }
+                        className="cursor-pointer">
+                            {remember ? (
+                                <SquareCheckBig className = "size-5 text-brand-primary-500" />
+                            ) : (<Square className = "size-5 text-slate-500" />)}
+                        </button>
+                    
+                    <p className="font-semibold"> Remember Me</p>
+                    </div>
+                     <a
+                     onClick = {handleForgotPassword}
+                     className = {`cursor-pointer text-brand-primary-500 font-semibold hover:text-brand-primary-400 duration-300 transition-all`}
+                     >Forgot Password</a>
+                </div>
+                <div className = "flex space-x-4 text-[14px] mt-6">
+                    <button
+                    type = "submit"
+                    disabled = { isSubmitting || hasErrors() }
+                    className = {`rounded-[10px] text-white bg-brand-primary-600 w-full py-4 duration-200 transition-all hover:bg-brand-primary-500  
+                    hover:shadow-lg hover:shadow-brand-primary-500/30 active:scale-95 active:shadow-inner active:bg-brand-primary-700 focus-visible:outline-none focus-visible:ring-2
+                    focus-visible:ring-brand-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900`}
+                    >
+                        Sign in
+                    </button>
+                </div>
             </form>
+            
 
         </div>
     );
