@@ -2,7 +2,8 @@ import InputField from "./InputField";
 import PasswordInputField from "./PasswordInputField";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
-import { type SignInFormData, type FormErrors } from "../types/forms";
+import {  type FormErrors } from "../types/forms";
+
 
 
 const SignInForm: React.FC = () => {
@@ -104,7 +105,7 @@ const SignInForm: React.FC = () => {
     return (
         <div className="max-w-md mx-auto mt-2 bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400">
             <form 
-                aria-label = "Login form"
+                aria-label = "Sign in form"
                 onSubmit = { handleSubmit }
                 noValidate
 

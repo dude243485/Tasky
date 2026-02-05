@@ -1,14 +1,20 @@
 import SignInForm from "../../components/SignInForm";
 import SignInOptionButton from "../../components/SignInOptionButton";
 import google from "/icons/google.svg"
+import { useNavigate } from "react-router";
+
 const SignIn =  () => {
 
     const handleGoogleClick = () => {
         alert("This feature is not yet available")
     }
 
+
+    //handle sign up
+    const navigate =  useNavigate();
     const handleSignUp = () => {
-        alert("This feature is not available yet")
+        navigate("/signup")
+        
     }
 
     return (

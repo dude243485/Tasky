@@ -11,10 +11,15 @@ export interface SignInFormData {
     email: string;
     password: string;
 }
-
+export interface SignUpFormData {
+    email: string;
+    fullName : string;
+    password : string;
+}
 export interface FormErrors {
     email? : string;
     password? : string;
+    fullName? : string;
     submit?: string;
 }
 
@@ -25,7 +30,3 @@ export interface SignUpFormErrors {
     submit? : string;
 }
 
-export interface SignUpFormData {
-    fullname : string;
-    email : string;
-}
