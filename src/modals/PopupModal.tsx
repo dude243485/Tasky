@@ -1,0 +1,61 @@
+import type { LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
+interface PopupModalProps {
+    isOpen : boolean;
+    onClose : () => void;
+    icon? : string | LucideIcon;
+    children : React.ReactNode;
+}
+
+const PopupModal : React.FC<PopupModalProps>  = ({
+    isOpen, onClose, icon : Icon, children
+}) => {
+
+    //prevent scrolling when modal is open
+    useEffect( () => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset"
+        }
+
+        return () => { document.body.style.overflow = "unset" }
+    }, [isOpen])
+
+
+    
+
+    if (!isOpen) return null;
+
+    return createPortal(
+        <div className="fixed inset-0 z-50 flex flex-col justify-end ">
+            <div
+            onClick = { onClose }
+            className ="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            />
+            <div className = "relative p-8 w-full max-w-lg overflow-hidden rounded-t-4xl bg-slate-50 transition-all dark:bg-slate-900 text-slate-900 dark:text-slate-50">
+                <div className= {` w-12 h-12 rounded-2xl flex items-center justify-centter absolute translate-y-1/2 shadow-xl 
+                    shadow-brand-primary-600/50 hover:shadow-2xl hover:shadow-brand-primary-600/60 bg-brand-primary-600`}>
+                    {typeof Icon === "string" ? (
+                            <img
+                            src = {Icon}
+                            alt = "pop-up icon"
+                            className="text-slate-50 "
+                             />
+                        ) : ( Icon !== undefined && (<Icon />)
+                            
+                        )
+                    }
+                </div> 
+                <div>
+                    {children}
+                </div> 
+            </div>
+
+        </div>,
+    document.body);
+}
+
+export default PopupModal;
