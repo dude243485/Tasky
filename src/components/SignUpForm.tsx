@@ -3,6 +3,8 @@ import {  type FormErrors, type SignUpFormData } from "../types/forms";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FingerprintPattern, Mail, User, TriangleAlert, SquareCheckBig, Square } from "lucide-react";
 import PasswordInputField from "./PasswordInputField";
+import TermsModal from "../modals/TermsModal";
+import TermsModalData from "../modals/TermsModalData";
 
 
 const SignUpForm : React.FC = () => {
@@ -30,11 +32,73 @@ const SignUpForm : React.FC = () => {
     const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(e.target.value);
     }
-    const handleSubmit =  (e : FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        //...
+
+    const validateForm = () : FormErrors => {
+        const newErrors : FormErrors = {}
+        const nameRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+
+        //email validation
+        if (!formData.email.trim()) {
+            newErrors.email = "Email is required" ;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Please enter a valid email address";
+        }
+
+        //full name validation
+        if (!formData.fullName.trim()){
+            newErrors.fullName = "Name is required";
+        }else if (formData.fullName.trim().split(/\s+/).length < 2){
+            newErrors.fullName = "Please enter both your first and last name.";
+        }else if (!nameRegex.test(formData.fullName)) {
+            newErrors.fullName = "Name contains invalid characters";
+        }
+
+        //password validation
+        if (!formData.password.trim()){
+            newErrors.password = "Password is required";
+        } else if (formData.password.trim()  && !confirmPassword.trim()){
+            newErrors.password = "Please confirm password below";
+        } else if (formData.password.trim() !== confirmPassword.trim()){
+            newErrors.password = "Passwords must match"
+        }else if (formData.password.length < 8) {
+            newErrors.password = "Password must be at least 8 characters";
+        } else if (! /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/.test(formData.password)) {
+            newErrors.email = "must contain a number, uppercase and a special character";
+        }
+        
+
+        return newErrors;
     }
 
+    const handleSubmit =  (e : FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
+        setIsSubmitting(true);
+
+        try {
+            alert("Form was submitted");
+            setFormData({
+                email : "",
+                password : "",
+                fullName : ""
+            });
+            setConfirmPassword("");
+        } catch (error) {
+            console.error("Sign up error : ", error);
+            setErrors({submit : "Sign up failed. please try again"});
+            setIsSubmitting(false);
+
+        }finally {
+            setIsSubmitting(false);
+        }
+    }
 
 
     const handleChange = (e : ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +122,15 @@ const SignUpForm : React.FC = () => {
         return Object.values(errors).some(error => !!error)
     }
 
+    const handleAcceptTerms = (choice : "accept" | "decline") => {
+        if (choice == "accept") {
+            setTermsOpen(false);
+            setAcceptTerms(true);
+        } else if (choice == "decline") {
+            setTermsOpen(false);
+            setAcceptTerms(false);
+        }
+    } 
 
     return(
         <div className = "max-w-md mx-auto mt-2 bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400">
@@ -87,7 +160,7 @@ const SignUpForm : React.FC = () => {
                 placeholder="Enter your full name"
                 value = { formData.fullName }
                 onChange = { handleChange }
-                error = { errors.email }
+                error = { errors.fullName }
                 required = { true }
                 autoComplete= "name"
                 disabled = { isSubmitting }
@@ -141,6 +214,17 @@ const SignUpForm : React.FC = () => {
                         </span>
                     </p>
                 </div>
+
+                {/*Terms and Conditions Modal*/}
+                <TermsModal
+                isOpen = { termsOpen }
+                onClose = { handleAcceptTerms}
+                title = "Terms & Conditions and Privacy Policy"
+                > 
+                    <div className="overflow-y-scroll max-h-[55vh] text-[11px] bg-slate-100 p-2 dark:bg-slate-800">
+                        <TermsModalData />
+                    </div>
+                </TermsModal>
 
                 {errors.submit && (
                     <div 

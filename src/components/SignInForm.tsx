@@ -64,10 +64,10 @@ const SignInForm: React.FC = () => {
         //password validation
         if (!formData.password) {
             newErrors.password = "Password is required";
-        } else if (formData.password.length < 7) {
-            newErrors.password = "Password must be at least 7 characters";
-        } else if (! /(?=.*[A-Za-z])/.test(formData.password)) {
-            newErrors.email = "Please enter a valid email address";
+        } else if (formData.password.length < 8) {
+            newErrors.password = "Password must be at least 8 characters";
+        } else if (! /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/.test(formData.password)) {
+            newErrors.email = "must contain a number, uppercase and a special character";
         }
 
         return newErrors;
@@ -90,8 +90,8 @@ const SignInForm: React.FC = () => {
             alert("Form was submitted");
             setFormData({email : "", password: ""});
         } catch (error) {
-            console.error("Login error : ", error);
-            setErrors({ submit : "Login failed. please try again"});
+            console.error("Sign in error : ", error);
+            setErrors({ submit : "Sign in failed. please try again"});
             setIsSubmitting(false);
         } finally {
             setIsSubmitting(false);
