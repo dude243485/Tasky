@@ -5,7 +5,10 @@ import { FingerprintPattern, Mail, User, TriangleAlert, SquareCheckBig, Square }
 import PasswordInputField from "./PasswordInputField";
 import TermsModal from "../modals/TermsModal";
 import TermsModalData from "../modals/TermsModalData";
-
+import BrandButton from "./BrandButton";
+import PopupModal from "../modals/PopupModal";
+import profile from "/icons/profile.svg";
+import { useNavigate } from "react-router";
 
 const SignUpForm : React.FC = () => {
     const [formData, setFormData] = useState<SignUpFormData>({
@@ -18,10 +21,24 @@ const SignUpForm : React.FC = () => {
 
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [acceptTerms, setAcceptTerms] = useState<boolean>(false)
-    const [termsOpen, setTermsOpen] = useState<boolean>(false)
+    const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
+    const [termsOpen, setTermsOpen] = useState<boolean>(false);
+    const [welcome, setWelcome] = useState<boolean>(false);
 
-    const toggleAcceptTerms = () => {
+    const navigate = useNavigate();
+
+    const handleProfile = () => {
+        alert("navigate to the profile page")
+        navigate("/profile")
+    }
+
+    const handleExplore = () => {
+        alert("navigate to the dashboard")
+        navigate("/dashboard")
+    }
+
+    const toggleAcceptTerms = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setAcceptTerms(prev => !prev);
     }
 
@@ -31,6 +48,13 @@ const SignUpForm : React.FC = () => {
 
     const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(e.target.value);
+        if (errors["password" as keyof FormErrors]) {
+            setErrors(prev => ({
+                ...prev,
+                ["password"] : undefined
+            }))
+        }
+
     }
 
     const validateForm = () : FormErrors => {
@@ -90,6 +114,7 @@ const SignUpForm : React.FC = () => {
                 fullName : ""
             });
             setConfirmPassword("");
+            setWelcome(true) //open welcome modal
         } catch (error) {
             console.error("Sign up error : ", error);
             setErrors({submit : "Sign up failed. please try again"});
@@ -122,7 +147,9 @@ const SignUpForm : React.FC = () => {
         return Object.values(errors).some(error => !!error)
     }
 
-    const handleAcceptTerms = (choice : "accept" | "decline") => {
+    const handleAcceptTerms = ( choice : "accept" | "decline") => {
+        
+
         if (choice == "accept") {
             setTermsOpen(false);
             setAcceptTerms(true);
@@ -238,17 +265,47 @@ const SignUpForm : React.FC = () => {
                 )} 
 
                 <div className = "flex space-x-4 text-[14px] mt-6">
-                    <button
+                    
+                    <BrandButton
+                    variant="primary"
+                    size = "full"
                     type = "submit"
                     disabled = { isSubmitting || hasErrors() }
-                    className = {`rounded-[10px] text-white bg-brand-primary-600 w-full py-4 duration-200 transition-all hover:bg-brand-primary-500  
-                    hover:shadow-lg hover:shadow-brand-primary-500/30 active:scale-95 active:shadow-inner active:bg-brand-primary-700 focus-visible:outline-none focus-visible:ring-2
-                    focus-visible:ring-brand-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900`}
                     >
-                        Sign up
-                    </button>
+                    Sign up
+                    </BrandButton>
                 </div>
             </form>
+            <PopupModal
+            isOpen = {welcome}
+            onClose={() => {setWelcome(false)}}
+            icon = {profile}
+            >
+                <div className="flex flex-col gap-4 mb-4 mt-15">
+                    <h3 className = "font-bold text-[20px] text-center">Welcome to Tasky</h3>
+                    <p className = "text-[12px] text-center"> To enhance your user experience, please set up your
+                        profile first. This will help us tailor the app to your needs 
+                        and ensure you get the most out of our features!
+                    </p>
+                </div>
+                <div className="flex flex-col gap-3">
+                    <BrandButton
+                    onClick = { handleProfile }
+                    variant = "primary"
+                    >
+                    <p className="text-[14px]">Set Up My profile</p>
+                    </BrandButton>
+
+                    <BrandButton
+                    onClick = { handleExplore }
+                    variant = "secondary"
+                    >
+                    <p className="text-[14px]">Explore The App First</p>
+                    </BrandButton>
+                </div>
+                
+
+            </PopupModal>
         </div>
         
     );

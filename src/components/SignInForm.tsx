@@ -3,6 +3,7 @@ import PasswordInputField from "./PasswordInputField";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
 import {  type FormErrors } from "../types/forms";
+import BrandButton from "./BrandButton";
 
 
 
@@ -47,7 +48,8 @@ const SignInForm: React.FC = () => {
     }
 
     //to handle remember me
-    const toggleRemember = () => {
+    const toggleRemember = (e : React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();            
         setRemember(prev => !prev)
     }
 
@@ -152,6 +154,7 @@ const SignInForm: React.FC = () => {
                 <div className="flex justify-between items-center text-[12px] mb-4">
                     <div className = "flex gap-2 items-center">
                         <button 
+                        role = "checkbox"
                         onClick = { toggleRemember }
                         className="cursor-pointer">
                             {remember ? (
@@ -167,15 +170,15 @@ const SignInForm: React.FC = () => {
                      >Forgot Password</a>
                 </div>
                 <div className = "flex space-x-4 text-[14px] mt-6">
-                    <button
+                    
+                    <BrandButton
+                    variant="primary"
+                    size = "full"
                     type = "submit"
                     disabled = { isSubmitting || hasErrors() }
-                    className = {`rounded-[10px] text-white bg-brand-primary-600 w-full py-4 duration-200 transition-all hover:bg-brand-primary-500  
-                    hover:shadow-lg hover:shadow-brand-primary-500/30 active:scale-95 active:shadow-inner active:bg-brand-primary-700 focus-visible:outline-none focus-visible:ring-2
-                    focus-visible:ring-brand-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900`}
                     >
-                        Sign in
-                    </button>
+                    Sign in
+                    </BrandButton>
                 </div>
             </form>
             
