@@ -30,3 +30,19 @@ export interface SignUpFormErrors {
     submit? : string;
 }
 
+export interface ProfileEditData {
+    firstname?: string;
+    lastname? : string;
+    dob? : string;
+    email?: string
+    profilePicture? : File | null;
+}
+
+export interface ProfileEditErrors {
+    firstname?: string;
+    lastname? : string;
+    email?: string
+    profilePicture? : string;
+    submit? : string;
+}
+

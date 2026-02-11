@@ -29,7 +29,7 @@ const SignUpForm : React.FC = () => {
 
     const handleProfile = () => {
         alert("navigate to the profile page")
-        navigate("/profile")
+        navigate("/profile/edit-profile")
     }
 
     const handleExplore = () => {
