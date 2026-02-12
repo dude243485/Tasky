@@ -43,6 +43,7 @@ export interface ProfileEditErrors {
     lastname? : string;
     email?: string
     profilePicture? : string;
+    dob? : string;
     submit? : string;
 }
 

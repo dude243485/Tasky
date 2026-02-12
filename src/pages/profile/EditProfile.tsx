@@ -8,7 +8,7 @@ function EditProfile() {
         console.log("you clicked back!")
     }
   return (
-    <div className="bg-white dark: pt-25 px-4 dark:bg-slate-950 text-slate-500 dark:text-slate-400 ">
+    <div className="min-h-screen bg-white dark: pt-25 px-4 pb-8 dark:bg-slate-950 text-slate-500 dark:text-slate-400 ">
         <ProfileHeader variant = "fill" onClick={ handleBack } />
         <div className=" max-w-md p-4 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400">
             <div className = "mb-4">

@@ -9,7 +9,7 @@ function ProfileHeader({variant, onClick} : ProfileHeaderProps) {
     
 
   return (
-    <header className = {` fixed top-0 left-0 right-0 w-full flex justify-between items-center px-6 py-5
+    <header className = {` fixed top-0 left-0 right-0 w-full flex justify-between items-center px-6 py-5 z-100
      ${variant === "fill" ? "bg-slate-50 text-slate-950 dark:bg-slate-900 dark:text-slate-50": "text-slate-50"}`} >
         <button 
         onClick = {() => {

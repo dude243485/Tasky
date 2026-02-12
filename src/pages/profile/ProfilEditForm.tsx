@@ -2,7 +2,10 @@ import type { ProfileEditData, ProfileEditErrors } from "../../types/forms";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router"
 import InputField from "../../components/InputField";
-import { Mail, UserRound } from "lucide-react";
+import { Mail, TriangleAlert, UserRound } from "lucide-react";
+import ImageUpload from "../../components/ImageUpload";
+import DOBInput from "../../components/DOBInput";
+import BrandButton from "../../components/BrandButton";
 
 function ProfilEditForm() {
     const [formData, setFormData] = useState<ProfileEditData> ({
@@ -94,6 +97,33 @@ function ProfilEditForm() {
             }))
         }
     }
+    const handleUploadPhoto = (file: File | null) => {
+        setFormData((prev : ProfileEditData) => ({
+            ...prev,
+            profilePicture : file
+        }))
+        
+        if (errors["profilePicture" as keyof ProfileEditErrors]) {
+            setErrors(prev => ({
+                ...prev,
+                ["profilePicture"] : undefined
+            }))
+        }
+    }
+
+    const handleDobUpdate = (dateString: string) => {
+        setFormData((prev : ProfileEditData) => ({
+            ...prev,
+            dob : dateString
+        }))
+
+        if (errors["dob" as keyof ProfileEditErrors]){
+            setErrors(prev => ({
+                ...prev,
+                ["dob"] : undefined
+            }))
+        }
+    }
 
     const hasErrors =() : boolean => {
         return Object.values(errors).some(error => !!error)
@@ -106,6 +136,10 @@ function ProfilEditForm() {
     onSubmit = { handleSubmit }
     noValidate
     >
+        <ImageUpload 
+        onImageSelect={ handleUploadPhoto }
+        error = {errors.profilePicture}
+        />
         <InputField
         label = "Firstname"
         name = "firstname"
@@ -145,6 +179,33 @@ function ProfilEditForm() {
         disabled = { isSubmitting }
         Icon = { Mail }
         />
+        <DOBInput
+        onDateChange={ handleDobUpdate }
+        error= { errors.dob }
+        />
+        {errors.submit && (
+            <div
+            role = "alert"
+            className = "mb-6 p-3 bg-brand-error-100 border-brand-error-400"
+            >
+                <div className = "flex text-[9px]">
+                    <TriangleAlert className="size-5 text-brand-error-400" />
+                    <p className = "text-brand-error-600 ml-3"> {errors.submit}</p>
+                </div>
+            </div>
+        )}
+
+        <div className = "flex space-x-4 text-[14px] mt-6 mb-3">
+            <BrandButton
+            variant = "primary" 
+            size = "full"
+            type = "submit"
+            disabled = { isSubmitting || hasErrors()}
+            >
+                Update Profile
+            </BrandButton>
+
+        </div>
 
 
     </form>
