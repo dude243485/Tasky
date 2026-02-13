@@ -16,8 +16,8 @@ function ProfileHeader({variant, onClick} : ProfileHeaderProps) {
             onClick();
         }}
         className =  {`flex p-2 justify-center items-center shrink-0 rounded-full cursor-pointer hover:opacity-60 duration-300 transition-all
-         ${variant === "fill" ? "bg-slate-100 dark:bg-slate-700" : "bg-slate-50 dark:bg-slate-900"} `}>
-            <ChevronLeft className = { ` size-4.5 ${variant === "fill" ? " text-brand-primary-800 dark:text-slate-50" : "text-brand-primary-060"}`} />
+         ${variant === "fill" ? "bg-slate-100 dark:bg-slate-700" : "bg-slate-50 "} `}>
+            <ChevronLeft className = { ` size-4.5 ${variant === "fill" ? " text-brand-primary-800 dark:text-slate-50" : "text-brand-primary-600"}`} />
         </button>
         <h3 className="text-center w-full text-[18px] font-semibold">My Profile</h3>
     </header>
