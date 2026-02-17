@@ -40,10 +40,10 @@ const DOBInput : React.FC<DOBProps> = ({
                 value = { month }
                 onChange = {(e) => setMonth(e.target.value) }
                 className = {`w-full p-3 pr-3  border rounded-xl outline-none transition-all
-                    focus:ring-2 focus:ring-brand-primary-500 text-slate-400 
+                    focus:ring-2 focus:ring-brand-primary-500 text-slate-400 dark:bg-slate-900
                     ${error ? "border-brand-error-500" : "border-slate-400"}`}
                 >
-                    <option value = "" disabled>Month</option>
+                    <option value = "dark:bg-slate-700" disabled>Month</option>
                     {months.map(m=> <option key = {m} value = {m}>{m}</option>)}
 
                 </select>
