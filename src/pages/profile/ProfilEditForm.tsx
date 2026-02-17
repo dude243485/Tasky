@@ -8,6 +8,7 @@ import DOBInput from "../../components/DOBInput";
 import BrandButton from "../../components/BrandButton";
 
 function ProfilEditForm() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<ProfileEditData> ({
         
     })
@@ -73,6 +74,8 @@ function ProfilEditForm() {
                 lastname : "",
 
             });
+            navigate("/dashboard")
+
         } catch(error) {
             console.error("Sign up error : ", error);
             setErrors({submit : "Failed to set up profile, please try again"})
