@@ -1,10 +1,12 @@
-import ProfileContainer from "../../components/profile/Profilecontainer"
+import { useNavigate } from "react-router"
+import ProfileContainer from "../../components/profile/ProfileContainer"
 import ProfileHeader from "../../components/profile/ProfileHeader"
 import ProfileItems from "../../components/profile/ProfileItems"
 import { ProfileData } from "../../tempData/ProfileData"
 
 
 const ViewProfile = () => {
+  const navigate = useNavigate();
   
   const handleMyProfile = () => {
     console.log("You clicked my profile")
@@ -44,7 +46,8 @@ const ViewProfile = () => {
   const settingsData = newProfileData.slice(1);
 
   const handleBack = () => {
-    //...
+    navigate("/dashboard")
+    
   }
 
   return (

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router"
+import {  Routes, Route, Navigate } from "react-router"
 import StepOne from "./pages/onboarding/StepOne"
 import StepTwo from "./pages/onboarding/StepTwo"
 import StepThree from "./pages/onboarding/StepThree"
@@ -7,6 +7,8 @@ import SignIn from "./pages/signIn/SignIn"
 import SignUp from "./pages/signUp/SignUp"
 import EditProfile from "./pages/profile/EditProfile"
 import ViewProfile from "./pages/profile/ViewProfile"
+import DashboardLayout from "./pages/dashboard/DashboardLayout"
+import Home from "./pages/dashboard/Home"
 
 function App() {
 
@@ -24,6 +26,12 @@ function App() {
         <Route path = "/profile" >
           <Route path = "view-profile" element = { <ViewProfile />}></Route>
           <Route path = "edit-profile" element = { <EditProfile />}></Route>
+        </Route>
+        <Route path = "/dashboard" element = { <DashboardLayout />}>
+          <Route index element = {<Home /> }/>
+          <Route path = "tasks" />
+          <Route path = "settings" />
+          <Route path = "*" element = {<Navigate to = "/dashboard" replace />} />
         </Route>
         {/* <Route path = "/dashboard" element= {} /> */}
     </Routes>
