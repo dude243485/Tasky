@@ -5,7 +5,9 @@ import InputField from "../../components/InputField";
 import { Mail, TriangleAlert, UserRound } from "lucide-react";
 import ImageUpload from "../../components/ImageUpload";
 import DOBInput from "../../components/DOBInput";
+import dayjs, { Dayjs } from 'dayjs';
 import BrandButton from "../../components/BrandButton";
+import DatePickerValue from "../../components/materials-ui/DatePickerValue";
 
 function ProfilEditForm() {
     const navigate = useNavigate();
@@ -75,6 +77,7 @@ function ProfilEditForm() {
 
             });
             navigate("/dashboard")
+            console.log("formData: ", formData)
 
         } catch(error) {
             console.error("Sign up error : ", error);
@@ -114,10 +117,15 @@ function ProfilEditForm() {
         }
     }
 
-    const handleDobUpdate = (dateString: string) => {
+    const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-17'));
+
+    const handleDobUpdate = (dateString: Dayjs | null) => {
+        const ds = dateString?.format('YYYY-MM-DD');
+        setValue(dateString);
+
         setFormData((prev : ProfileEditData) => ({
             ...prev,
-            dob : dateString
+            dob : ds
         }))
 
         if (errors["dob" as keyof ProfileEditErrors]){
@@ -182,10 +190,17 @@ function ProfilEditForm() {
         disabled = { isSubmitting }
         Icon = { Mail }
         />
-        <DOBInput
+        {/* <DOBInput
         onDateChange={ handleDobUpdate }
         error= { errors.dob }
-        />
+        /> */}
+        <DatePickerValue
+        onDateChange={ handleDobUpdate }
+        error = { errors.dob }
+        value={ value }
+        label = "Date of Birth"
+        required = { true }
+         />
         {errors.submit && (
             <div
             role = "alert"
