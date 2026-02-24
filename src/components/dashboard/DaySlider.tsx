@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { format, addDays, subDays, startOfToday, startOfWeek, isSameDay } from "date-fns";
+import { useState } from "react";
+import { format, addDays, subDays, startOfWeek, isSameDay, parseISO } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Task } from "../../types/taskTypes";
+import { setSelectedDate } from "../../store/calendarSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
 
 interface DateSliderProps {
     tasks: Task[];
@@ -10,10 +13,18 @@ interface DateSliderProps {
 
 
 const DaySlider = ({ tasks }: DateSliderProps) => {
-
+    const dispatch = useAppDispatch()
     //Generate 5 days centered around a pivot
-    const [activeWeekStart, setActiveWeekStart] = useState(startOfWeek(new Date()));
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    // const [selectedDate, setSelectedDate] = useState(new Date());
+
+    //get global state
+    const selectedDateStr = useAppSelector((state) => state.calendar.selectedDate);
+    const selectedDate = parseISO(selectedDateStr);
+
+    const [activeWeekStart, setActiveWeekStart] = useState(startOfWeek(selectedDate));
+
+
+
 
     //generate the 7 days for the current view
     const daysInWeek = Array.from({ length: 5 }).map((_, i) =>
@@ -50,6 +61,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
 
                     return (
                         <div key={date.toString()}
+                            
                             className={` ${isSelected ? " relative bg-slate-950 text-slate-50 dark:bg-slate-50 dark:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 hover:text-slate-200"
                                 : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300 text-slate-700 "} 
                         flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-300 group relative
@@ -63,7 +75,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
                                     <div className="absolute -top-14 botom-[-8px] w-12 bg-slate-900 rounded-full -z-10 " />
                                 )}
                                 <button
-                                    onClick={() => setSelectedDate(date)}
+                                    onClick={() => dispatch(setSelectedDate(date.toISOString()))}
                                     className={`
                                     flex items-center justify-center w-10 h-10 rounded-full font-bold transition-all mx-2 
                                     ${isSelected ? "bg-brand-primary-600 text-white shadow-md" : "text-slate-700 hover:bg-slate-100"}`}
