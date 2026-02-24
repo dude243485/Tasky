@@ -31,7 +31,7 @@ function App() {
           <Route index element = {<Home /> }/>
           <Route path = "tasks" />
           <Route path = "settings" />
-          <Route path = "*" element = {<Navigate to = "/dashboard" replace />} />
+           
         </Route>
         {/* <Route path = "/dashboard" element= {} /> */}
     </Routes>
