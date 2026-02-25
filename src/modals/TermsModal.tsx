@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import BrandButton from "../components/BrandButton";
+import BrandButton from "../components/buttons/BrandButton";
 
 
 interface TermsModalProps {

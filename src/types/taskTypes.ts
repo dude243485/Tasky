@@ -6,7 +6,7 @@ export interface Task {
     dueDate: Date;
     category : string;
     priority: "low" | "medium" | "high";
-    status: "pending" | "in-progress" | "completed";
+    status: "pending" | "completed";
     createdAt: Date;
     updatedAt: Date;
 }

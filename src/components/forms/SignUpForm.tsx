@@ -1,12 +1,12 @@
 import InputField from "./InputField";
-import {  type FormErrors, type SignUpFormData } from "../types/forms";
+import {  type FormErrors, type SignUpFormData } from "../../types/forms";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FingerprintPattern, Mail, User, TriangleAlert, SquareCheckBig, Square } from "lucide-react";
 import PasswordInputField from "./PasswordInputField";
-import TermsModal from "../modals/TermsModal";
-import TermsModalData from "../modals/TermsModalData";
-import BrandButton from "./BrandButton";
-import PopupModal from "../modals/PopupModal";
+import TermsModal from "../../modals/TermsModal";
+import TermsModalData from "../../modals/TermsModalData";
+import BrandButton from "../buttons/BrandButton";
+import PopupModal from "../../modals/PopupModal";
 import profile from "/icons/profile.svg";
 import { useNavigate } from "react-router";
 

@@ -1,5 +1,5 @@
-import SignInForm from "../../components/SignInForm";
-import SignInOptionButton from "../../components/SignInOptionButton";
+import SignInForm from "../../components/forms/SignInForm";
+import SignInOptionButton from "../../components/forms/SignInOptionButton";
 import google from "/icons/google.svg"
 import { useNavigate } from "react-router";
 

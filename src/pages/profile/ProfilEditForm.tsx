@@ -1,12 +1,12 @@
 import type { ProfileEditData, ProfileEditErrors } from "../../types/forms";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router"
-import InputField from "../../components/InputField";
+import InputField from "../../components/forms/InputField";
 import { Mail, TriangleAlert, UserRound } from "lucide-react";
-import ImageUpload from "../../components/ImageUpload";
-import DOBInput from "../../components/DOBInput";
+import ImageUpload from "../../components/forms/ImageUpload";
+import DOBInput from "../../components/forms/DOBInput";
 import dayjs, { Dayjs } from 'dayjs';
-import BrandButton from "../../components/BrandButton";
+import BrandButton from "../../components/buttons/BrandButton";
 import DatePickerValue from "../../components/materials-ui/DatePickerValue";
 
 function ProfilEditForm() {

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router";
 import illustration from "/Illustrations/success Illustration new.svg"
-import BrandButton from "../../components/BrandButton";
+import BrandButton from "../../components/buttons/BrandButton";
 
 const StepThree = () => {
     const navigate = useNavigate();
