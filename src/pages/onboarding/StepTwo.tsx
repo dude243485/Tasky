@@ -1,7 +1,7 @@
 
 import { useNavigate, useLocation } from "react-router";
 import illustration from "/Illustrations/High stress levels 1.svg"
-import BrandButton from "../../components/BrandButton";
+import BrandButton from "../../components/buttons/BrandButton";
 
 const StepTwo = () => {
 

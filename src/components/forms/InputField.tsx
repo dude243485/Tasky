@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { type InputProps } from "../types/forms";
+import { type InputProps } from "../../types/forms";
 
 const InputField =  forwardRef<HTMLInputElement, InputProps>(({
     label, 

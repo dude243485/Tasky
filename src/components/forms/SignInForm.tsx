@@ -2,8 +2,8 @@ import InputField from "./InputField";
 import PasswordInputField from "./PasswordInputField";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
-import {  type FormErrors } from "../types/forms";
-import BrandButton from "./BrandButton";
+import { type FormErrors } from "../../types/forms";
+import BrandButton from "../buttons/BrandButton";
 
 
 

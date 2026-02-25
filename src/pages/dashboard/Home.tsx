@@ -1,4 +1,5 @@
 import DaySlider from "../../components/dashboard/DaySlider";
+import TaskList from "../../components/tasks/TaskList";
 import { dummyTasks } from "../../tempData/tasks";
 
 const Home = () => {
@@ -10,6 +11,9 @@ const Home = () => {
             </div>
             <div className="py-6">
                 <DaySlider tasks={dummyTasks} />
+            </div>
+            <div className="py-8 rounded-2xl  text-slate-900 dark:text-slate-100  ">
+                <TaskList />
             </div>
         </div>
     )

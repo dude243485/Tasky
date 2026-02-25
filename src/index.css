@@ -25,10 +25,15 @@
   --color-brand-secondary-300: #8E92BC;
   --color-brand-secondary-200: #C2C6E8;
   --color-brand-secondary-100: #DFE1F3;
+  --color-brand-success-900 : #3B6506;
+  --color-brand-success-800 : #4C7A0B;
   --color-brand-success-700: #659711;
   --color-brand-success-600: #7FB519;
   --color-brand-success-500: #9CD323;
   --color-brand-success-400: #BCE455;
+  --color-brand-success-300 : #D3F178;
+  --color-brand-success-200 : #E8FAA6;
+  --color-brand-success-100 : #F5FCD2;
   --color-brand-error-700: #B71112;
   --color-brand-error-600: #DB2719;
   --color-brand-error-500: #FF4423;
