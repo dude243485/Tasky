@@ -1,24 +1,23 @@
-import { useAppSelector } from "../../store/hooks";
-import { parseISO, isSameDay } from "date-fns";
+
 import TaskItem from "./TaskItem";
 import { Plus } from "lucide-react";
 import calendarIcon from "../../assets/calendar_icon.png";
+import {  type Task } from "../../types/taskTypes";
 
+interface TaskListProps {
+    taskItems : Task[]
+}
 
-const TaskList = () => {
+const TaskList = ( {taskItems} : TaskListProps) => {
 
-    const { items } = useAppSelector((state) => state.tasks);
-    const selectedDateStr = useAppSelector((state) => state.calendar.selectedDate);
-    const selectedDate = parseISO(selectedDateStr);
-
-    const filteredTasks = items.filter((task) => isSameDay(task.dueDate, selectedDate))
+    
 
     return (
         <div className="space-y-4">
             <h3 className = "text-lg font-bold">Current Tasks</h3>
-            {filteredTasks.length > 0 ? (
+            {taskItems.length > 0 ? (
                 
-                filteredTasks.map((task) => (
+                taskItems.map((task) => (
                     <TaskItem key = {task.id} item = {task} />
                 ))
             ) : (
