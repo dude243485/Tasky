@@ -9,6 +9,7 @@ import EditProfile from "./pages/profile/EditProfile"
 import ViewProfile from "./pages/profile/ViewProfile"
 import DashboardLayout from "./pages/dashboard/DashboardLayout"
 import Home from "./pages/dashboard/Home"
+import TasksExplore from "./pages/tasksExplore/TasksExplore"
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
         </Route>
         <Route path = "/dashboard" element = { <DashboardLayout />}>
           <Route index element = {<Home /> }/>
-          <Route path = "tasks" />
+          <Route path = "tasks" element = { <TasksExplore />} />
           <Route path = "settings" />
            
         </Route>
