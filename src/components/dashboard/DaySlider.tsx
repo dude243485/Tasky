@@ -33,7 +33,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
     const handlePrevWeek = () => setActiveWeekStart(prev => subDays(prev, 5));
     const handleNextWeek = () => setActiveWeekStart(prev => addDays(prev, 5));
     const hasTasks = (date: Date) =>
-        tasks.some((task: Task) => isSameDay(task.dueDate, date));
+        tasks.some((task: Task) => isSameDay(parseISO(task.dueDate), date));
 
 
 
@@ -61,7 +61,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
 
                     return (
                         <div key={date.toString()}
-                            
+
                             className={` ${isSelected ? " relative bg-slate-950 text-slate-50 dark:bg-slate-50 dark:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 hover:text-slate-200"
                                 : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300 text-slate-700 "} 
                         flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-300 group relative
