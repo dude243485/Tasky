@@ -9,7 +9,7 @@ const Home = () => {
     const selectedDateStr = useAppSelector((state) => state.calendar.selectedDate);
     const selectedDate = parseISO(selectedDateStr);
 
-    const filteredTasks = items.filter((task) => isSameDay(task.dueDate, selectedDate))
+    const filteredTasks = items.filter((task) => isSameDay(parseISO(task.dueDate), selectedDate))
     return (
         <div className="px-6 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ">
             <div className="">
@@ -20,7 +20,7 @@ const Home = () => {
                 <DaySlider tasks={dummyTasks} />
             </div>
             <div className="py-8 rounded-2xl  text-slate-900 dark:text-slate-100  ">
-                <TaskList taskItems = { filteredTasks} />
+                <TaskList taskItems={filteredTasks} />
             </div>
         </div>
     )
