@@ -19,7 +19,7 @@ const BrandButton = (
         primary : `text-white bg-brand-primary-600 hover:bg-brand-primary-500 focus-visible:ring-brand-primary-400 dark:focus-visible:ring-offset-slate-900
             focus-visible:ring-offset-2  hover:shadow-brand-primary-500/30 active:bg-brand-primary-700 hover:shadow-lg  active:scale-95 active:shadow-inner `,
         secondary : `text-brand-primary-600 dark:text-slate-50 border border-brand-primary-600 hover:shadow-lg hover:shadow-brand-primary-500/30 active:scale-95 active:shadow-inner 
-            active:bg-brand-primary-700 active:text-slate-50 focus-visible:ring-brand-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900  `,
+            active:bg-brand-primary-100 active:text-brand-primary-700 focus-visible:ring-brand-primary-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900  `,
         danger : `bg-brand-error-600 text-white hover:bg-brand-error-500`
 
     }
