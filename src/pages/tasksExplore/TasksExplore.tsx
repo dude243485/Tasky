@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { Search, ArrowUp, ArrowDown, ListFilter } from "lucide-react";
-import { parseISO, compareAsc, compareDesc } from "date-fns";
+import { compareAsc, compareDesc } from "date-fns";
 import TaskList from "../../components/tasks/TaskList";
 import SortOption from "../../components/dashboard/SortOption";
 

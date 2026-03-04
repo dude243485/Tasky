@@ -10,6 +10,7 @@ import ViewProfile from "./pages/profile/ViewProfile"
 import DashboardLayout from "./pages/dashboard/DashboardLayout"
 import Home from "./pages/dashboard/Home"
 import TasksExplore from "./pages/tasksExplore/TasksExplore"
+import AddTask from "./pages/dashboard/AddTask"
 
 function App() {
 
@@ -28,8 +29,11 @@ function App() {
           <Route path = "view-profile" element = { <ViewProfile />}></Route>
           <Route path = "edit-profile" element = { <EditProfile />}></Route>
         </Route>
+
+        <Route path = "/add-task" element = { <AddTask />} />
         <Route path = "/dashboard" element = { <DashboardLayout />}>
           <Route index element = {<Home /> }/>
+          
           <Route path = "tasks" element = { <TasksExplore />} />
           <Route path = "settings" />
            
