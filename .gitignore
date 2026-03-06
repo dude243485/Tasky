@@ -7,12 +7,27 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# --- Global Ignores ---
+# This ignores node_modules and dist in ANY subfolder
+node_modules/
+dist/
+dist-ssr/
 *.local
+.env
+.env.*
 
-# Editor directories and files
+# --- Backend Specific ---
+# Prisma generated files
+backend/prisma/migrations/
+backend/prisma/*.db
+backend/prisma/*.db-journal
+*.tsbuildinfo
+
+# Sharp / Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# --- Editor & OS Files ---
 .vscode/*
 !.vscode/extensions.json
 .idea
