@@ -98,7 +98,7 @@ export const signin = async (req: Request, res: Response) => {
         const accessToken = generateToken(user.id, user.email);
 
         res.json({
-            user: { id: user.id, email: user.email, name: user, avatar: user.avatar },
+            user: { id: user.id, email: user.email, name: user.name, avatar: user.avatar },
             accessToken
         })
 
