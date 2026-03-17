@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import authRoutes from "./routes/auth.routes";
+import tasksRoutes from "./routes/tasks.routes";
 
 dotenv.config();
 
@@ -26,7 +27,8 @@ app.get("/health", (req, res) => {
     res.json({ status: "ok", timeStamp: new Date().toISOString() })
 })
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", tasksRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
