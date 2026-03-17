@@ -27,6 +27,15 @@ backend/prisma/*.db-journal
 backend/uploads/*
 !backend/uploads/.gitkeep
 
+server/uploads/*
+!server/uploads/.gitkeep
+# Prisma generated files
+server/prisma/migrations/
+server/prisma/*.db
+server/prisma/*.db-journal
+*.tsbuildinfo
+
+
 # --- Editor & OS Files ---
 .vscode/*
 !.vscode/extensions.json

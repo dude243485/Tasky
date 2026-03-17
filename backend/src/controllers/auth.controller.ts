@@ -44,7 +44,7 @@ export const googleLogin = async (req: Request, res: Response) => {
 
 //non google auth
 const generateToken = (userId: string, email: string): string => {
-    return jwt.sign({ userId, email }, process.env.JWT_SECRET!, {
+    return jwt.sign({ id: userId, email }, process.env.JWT_SECRET!, {
         expiresIn: process.env.JWT_EXPIRES_IN ?? "7d",
     } as jwt.SignOptions);
 };
@@ -52,6 +52,13 @@ const generateToken = (userId: string, email: string): string => {
 export const register = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, email, password } = req.body;
+        console.log(`${name} ${email} ${password}`);
+
+        if (!name || !email || !password) {
+            res.status(400).json({ message: "Name, email, and password are required" });
+            return;
+        }
+
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             res.status(409).json({
@@ -84,6 +91,10 @@ export const signin = async (req: Request, res: Response) => {
     console.log("you hit sign in")
     try {
         const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
 
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user || !user.password) {
