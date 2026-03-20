@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { protect } from "../middleware/auth.middleware";
 import { uploadImage, processImage, handleMulterError } from "../lib/upload";
-import { getTasks, createTask, getTask } from "../controllers/tasks.controller"
+import { getTasks, createTask, getTask, updateTask, deleteTask } from "../controllers/tasks.controller"
 
 
 const router = Router();
@@ -17,6 +17,9 @@ router.post("/", ...withImage, createTask);
 
 
 //GET /api/tasks/:id - get single task
+//DELETE /api/tasks/:id
 router.get("/:id", getTask);
+router.patch("/:id", withImage, updateTask);
+router.delete("/:id", deleteTask);
 
 export default router;
