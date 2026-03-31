@@ -188,3 +188,29 @@ export const deleteTask = async (req: AuthRequest, res: Response): Promise<void>
     }
 }
 
+
+//toggle task completed status
+export const toggleTask = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+        const task = await prisma.task.findFirst({
+            where: { id: req.params.id as string, userId: req.user?.id! },
+        });
+
+        if (!task) {
+            res.status(404).json({ error: "Task not found" });
+            return;
+        }
+
+        const updated = await prisma.task.update({
+            where: { id: task.id },
+            data: {
+                status: task.status === "PENDING" ? "COMPLETED" : "PENDING",
+            }
+        });
+
+        res.json({ task: updated });
+    } catch (error) {
+        console.error("Toggle task error : ", error);
+        res.status(500).json({ error: "Internal server error " });
+    }
+}
