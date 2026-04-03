@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import authRoutes from "./routes/auth.routes";
 import tasksRoutes from "./routes/tasks.routes";
+import userRoutes from "./routes/user.routes";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", tasksRoutes);
+app.use("/api/users", userRoutes);
 
 //404 handler
 app.use((_req, res) => {
