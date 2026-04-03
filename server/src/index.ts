@@ -21,10 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 //static files
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-//404 handler
-app.use((_req, res) => {
-    res.status(404).json({ error: "Route not found" });
-})
+
 
 //routes
 app.get("/health", (req, res) => {
@@ -33,6 +30,11 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", tasksRoutes);
+
+//404 handler
+app.use((_req, res) => {
+    res.status(404).json({ error: "Route not found" });
+})
 
 //global error handler
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
