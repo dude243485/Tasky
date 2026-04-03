@@ -25,7 +25,39 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# ── OS ───────────────────────────────────────────────────────────────────────
+# --- Global Ignores ---
+# This ignores node_modules and dist in ANY subfolder
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+
+# --- Backend Specific ---
+# Prisma generated files
+backend/prisma/migrations/
+backend/prisma/*.db
+backend/prisma/*.db-journal
+*.tsbuildinfo
+
+# Sharp / Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+server/uploads/*
+!server/uploads/.gitkeep
+# Prisma generated files
+server/prisma/migrations/
+server/prisma/*.db
+server/prisma/*.db-journal
+*.tsbuildinfo
+
+
+# --- Editor & OS Files ---
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
 Thumbs.db
 
@@ -36,3 +68,4 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln
+*.sw?
