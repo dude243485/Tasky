@@ -1,232 +1,199 @@
 import type { ProfileEditData, ProfileEditErrors } from "../../types/forms";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router";
 import InputField from "../../components/forms/InputField";
 import { Mail, TriangleAlert, UserRound } from "lucide-react";
 import ImageUpload from "../../components/forms/ImageUpload";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 import BrandButton from "../../components/buttons/BrandButton";
 import DatePickerValue from "../../components/materials-ui/DatePickerValue";
 
+
+
 function ProfilEditForm() {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState<ProfileEditData> ({
-        
-    })
-    const [errors, setErrors] = useState<ProfileEditErrors> ({})
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-    const validateForm = () : ProfileEditErrors => {
-        const newErrors : ProfileEditErrors = {}
-        const nameRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
- 
-        //firstname validation
-        if (!formData.firstname?.trim()) {
-            newErrors.firstname = "First name cannot be empty";
-        } else if (!nameRegex.test(formData.firstname)) {
-            newErrors.firstname = "Name contains invalid characters";
-        }
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<ProfileEditData>({});
+  const [errors, setErrors] = useState<ProfileEditErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-        //lastname validation
-        if (!formData.lastname?.trim()) {
-            newErrors.lastname = "First name cannot be empty";
-        } else if (!nameRegex.test(formData.lastname)) {
-            newErrors.lastname = "Name contains invalid characters";
-        }
+  const validateForm = (): ProfileEditErrors => {
+    const newErrors: ProfileEditErrors = {};
+    const nameRegex =
+      /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
-        //email validation
-        if (!formData.email?.trim()) {
-            newErrors.email = "Email is required" ;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = "Please enter a valid email address";
-        } 
-
-        //image validation
-        const MAX_FILE_SIZE = 2 * 1024 * 1024;
-        const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-        const file = formData.profilePicture
-
-        if (!file){
-            newErrors.profilePicture = "please upload your profile picture"
-        } else if(!IMAGE_TYPES.includes(file?.type)){
-            newErrors.profilePicture = "please upload a PNG or JPEG";
-        } else if (file?.size > MAX_FILE_SIZE) {
-            newErrors.profilePicture = "image is too large. Max size is 2MB"
-        }
-        return newErrors;
+    if (!formData.firstname?.trim()) {
+      newErrors.firstname = "First name cannot be empty";
+    } else if (!nameRegex.test(formData.firstname)) {
+      newErrors.firstname = "Name contains invalid characters";
     }
 
-    const handleSubmit = (e : FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return
-        }
-
-        setErrors({});
-        setIsSubmitting(true);
-
-        try{
-            alert("Form was submitted");
-            setFormData({
-                email: "",
-                firstname : "",
-                lastname : "",
-
-            });
-            navigate("/dashboard")
-            console.log("formData: ", formData)
-
-        } catch(error) {
-            console.error("Sign up error : ", error);
-            setErrors({submit : "Failed to set up profile, please try again"})
-            setIsSubmitting(false);
-        } finally {
-            setIsSubmitting(false);
-        }
+    if (!formData.lastname?.trim()) {
+      newErrors.lastname = "Last name cannot be empty";
+    } else if (!nameRegex.test(formData.lastname)) {
+      newErrors.lastname = "Name contains invalid characters";
     }
 
-    const handleChange = (e : ChangeEvent<HTMLInputElement>) => {
-        const { name , value } = e.target ;
-
-        setFormData((prev : ProfileEditData) => ({
-            ...prev, 
-            [name] : value
-        }))
-
-        if (errors[name as keyof ProfileEditErrors]) {
-            setErrors(prev => ({
-                ...prev,
-                [name] : undefined
-            }))
-        }
-    }
-    const handleUploadPhoto = (file: File | null) => {
-        setFormData((prev : ProfileEditData) => ({
-            ...prev,
-            profilePicture : file
-        }))
-        
-        if (errors["profilePicture" as keyof ProfileEditErrors]) {
-            setErrors(prev => ({
-                ...prev,
-                ["profilePicture"] : undefined
-            }))
-        }
+    if (!formData.email?.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
     }
 
-    const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-17'));
-
-    const handleDobUpdate = (dateString: Dayjs | null) => {
-        const ds = dateString?.format('YYYY-MM-DD');
-        setValue(dateString);
-
-        setFormData((prev : ProfileEditData) => ({
-            ...prev,
-            dob : ds
-        }))
-
-        if (errors["dob" as keyof ProfileEditErrors]){
-            setErrors(prev => ({
-                ...prev,
-                ["dob"] : undefined
-            }))
-        }
+    // Avatar is optional — only validate if the user selected one
+    const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB (matches server limit)
+    const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    const file = formData.profilePicture;
+    if (file) {
+      if (!IMAGE_TYPES.includes(file.type)) {
+        newErrors.profilePicture = "Please upload a PNG or JPEG";
+      } else if (file.size > MAX_FILE_SIZE) {
+        newErrors.profilePicture = "Image is too large. Max size is 4 MB";
+      }
     }
 
-    const hasErrors =() : boolean => {
-        return Object.values(errors).some(error => !!error)
+    return newErrors;
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
 
+    setErrors({});
+    setIsSubmitting(true);
+
+    try {
+      alert("Form was submitted (API Disabled)");
+      setFormData({
+          email: "",
+          firstname: "",
+          lastname: "",
+      });
+      navigate("/dashboard");
+      console.log("formData: ", formData);
+
+    } catch (error) {
+      console.error("Profile update error:", error);
+      setErrors({ submit: "Failed to update profile, please try again" });
+      setIsSubmitting(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: ProfileEditData) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof ProfileEditErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleUploadPhoto = (file: File | null) => {
+    setFormData((prev: ProfileEditData) => ({ ...prev, profilePicture: file }));
+    if (errors["profilePicture" as keyof ProfileEditErrors]) {
+      setErrors((prev) => ({ ...prev, profilePicture: undefined }));
+    }
+  };
+
+  const [dobValue, setDobValue] = useState<Dayjs | null>(
+    dayjs("2000-01-01")
+  );
+
+  const handleDobUpdate = (dateString: Dayjs | null) => {
+    const ds = dateString?.format("YYYY-MM-DD");
+    setDobValue(dateString);
+    setFormData((prev: ProfileEditData) => ({ ...prev, dob: ds }));
+    if (errors["dob" as keyof ProfileEditErrors]) {
+      setErrors((prev) => ({ ...prev, dob: undefined }));
+    }
+  };
+
+  const hasErrors = (): boolean =>
+    Object.values(errors).some((error) => !!error);
 
   return (
-    <form
-    aria-label = "Edit profile form"
-    onSubmit = { handleSubmit }
-    noValidate
-    >
-        <ImageUpload 
-        onImageSelect={ handleUploadPhoto }
-        error = {errors.profilePicture}
-        />
-        <InputField
-        label = "Firstname"
-        name = "firstname"
-        type = "text"
-        placeholder = "Enter first name"
-        value = { formData.firstname }
-        onChange = { handleChange }
-        error = { errors.firstname }
-        required = { true }
-        autoComplete = "name"
-        disabled = { isSubmitting }
-        Icon = { UserRound }
-        />
-        <InputField
-        label = "Lastname"
-        name = "lastname"
-        type = "text"
-        placeholder = "Enter last name"
-        value = { formData.lastname }
-        onChange = { handleChange }
-        error = { errors.lastname }
-        required = { true }
-        autoComplete = "name"
-        disabled = { isSubmitting }
-        Icon = { UserRound }
-        />
-        <InputField 
-        label = "Email"
-        name = "email"
-        type = "email"
+    <form aria-label="Edit profile form" onSubmit={handleSubmit} noValidate>
+      <ImageUpload onImageSelect={handleUploadPhoto} error={errors.profilePicture} />
+
+      <InputField
+        label="Firstname"
+        name="firstname"
+        type="text"
+        placeholder="Enter first name"
+        value={formData.firstname}
+        onChange={handleChange}
+        error={errors.firstname}
+        required={true}
+        autoComplete="given-name"
+        disabled={isSubmitting}
+        Icon={UserRound}
+      />
+
+      <InputField
+        label="Lastname"
+        name="lastname"
+        type="text"
+        placeholder="Enter last name"
+        value={formData.lastname}
+        onChange={handleChange}
+        error={errors.lastname}
+        required={true}
+        autoComplete="family-name"
+        disabled={isSubmitting}
+        Icon={UserRound}
+      />
+
+      <InputField
+        label="Email"
+        name="email"
+        type="email"
         placeholder="Enter your email..."
-        value = { formData.email }
-        onChange = { handleChange }
-        error = { errors.email }
-        required = { true }
-        autoComplete = "email"
-        disabled = { isSubmitting }
-        Icon = { Mail }
-        />
-        {/* <DOBInput
-        onDateChange={ handleDobUpdate }
-        error= { errors.dob }
-        /> */}
-        <DatePickerValue
-        onDateChange={ handleDobUpdate }
-        error = { errors.dob }
-        value={ value }
-        label = "Date of Birth"
-        required = { true }
-         />
-        {errors.submit && (
-            <div
-            role = "alert"
-            className = "mb-6 p-3 bg-brand-error-100 border-brand-error-400"
-            >
-                <div className = "flex text-[9px]">
-                    <TriangleAlert className="size-5 text-brand-error-400" />
-                    <p className = "text-brand-error-600 ml-3"> {errors.submit}</p>
-                </div>
-            </div>
-        )}
+        value={formData.email}
+        onChange={handleChange}
+        error={errors.email}
+        required={true}
+        autoComplete="email"
+        disabled={isSubmitting}
+        Icon={Mail}
+      />
 
-        <div className = "flex space-x-4 text-[14px] mt-6 mb-3">
-            <BrandButton
-            variant = "primary" 
-            size = "full"
-            type = "submit"
-            disabled = { isSubmitting || hasErrors()}
-            >
-                Update Profile
-            </BrandButton>
+      <DatePickerValue
+        onDateChange={handleDobUpdate}
+        error={errors.dob}
+        value={dobValue}
+        label="Date of Birth"
+        required={true}
+      />
 
+      {errors.submit && (
+        <div
+          role="alert"
+          className="mb-6 p-3 bg-brand-error-100 border-brand-error-400"
+        >
+          <div className="flex text-[9px]">
+            <TriangleAlert className="size-5 text-brand-error-400" />
+            <p className="text-brand-error-600 ml-3">{errors.submit}</p>
+          </div>
         </div>
+      )}
 
-
+      <div className="flex space-x-4 text-[14px] mt-6 mb-3">
+        <BrandButton
+          variant="primary"
+          size="full"
+          type="submit"
+          disabled={isSubmitting || hasErrors()}
+        >
+          {isSubmitting ? "Updating…" : "Update Profile"}
+        </BrandButton>
+      </div>
     </form>
   );
 }
- 
-export default ProfilEditForm
+
+export default ProfilEditForm;

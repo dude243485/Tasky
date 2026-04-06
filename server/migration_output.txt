@@ -1,0 +1,56 @@
+﻿node.exe : Loaded Prisma 
+config from 
+prisma.config.ts.
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE 
+$NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (L  
+  oaded Prisma c...isma   
+ .config.ts.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+Prisma schema loaded from 
+prisma\schema.prisma.
+Datasource "db": PostgreSQL database "tasky-db", schema "public" at "localhost:5432"
+
+
+Error: 
+ΓÜá∩╕Å We found changes 
+that cannot be executed:
+
+  ΓÇó Step 0 Added the 
+required column 
+`updatedAt` to the `Task` 
+table without a default 
+value. There are 3 rows 
+in this table, it is not 
+possible to execute this 
+step.
+  ΓÇó Step 1 Added the 
+required column 
+`updatedAt` to the `User` 
+table without a default 
+value. There are 2 rows 
+in this table, it is not 
+possible to execute this 
+step.
+
+You can use prisma 
+migrate dev --create-only 
+to create the migration 
+file, and manually modify 
+it to address the 
+underlying issue(s).
+Then run prisma migrate 
+dev to apply it and 
+verify it works.
+

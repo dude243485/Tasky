@@ -1,0 +1,70 @@
+﻿node.exe : Loaded Prisma 
+config from 
+prisma.config.ts.
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE 
+$NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (L  
+  oaded Prisma c...isma   
+ .config.ts.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+Prisma schema loaded from 
+prisma\schema.prisma.
+Datasource "db": PostgreSQL database "tasky-db", schema "public" at "localhost:5432"
+
+Applying migration `20260406143545_add_timestamps_to_task_and_user`
+Error: P3018
+
+A migration failed to 
+apply. New migrations 
+cannot be applied before 
+the error is recovered 
+from. Read more about how 
+to resolve migration 
+issues in a production 
+database: https://pris.ly/
+d/migrate-resolve
+
+Migration name: 2026040614
+3545_add_timestamps_to_tas
+k_and_user
+
+Database error code: 23502
+
+Database error:
+ERROR: column "updatedAt" 
+of relation "Task" 
+contains null values
+
+DbError { severity: 
+"ERROR", parsed_severity: 
+Some(Error), code: 
+SqlState(E23502), 
+message: "column 
+\"updatedAt\" of relation 
+\"Task\" contains null 
+values", detail: None, 
+hint: None, position: 
+None, where_: None, 
+schema: Some("public"), 
+table: Some("Task"), 
+column: 
+Some("updatedAt"), 
+datatype: None, 
+constraint: None, file: 
+Some("tablecmds.c"), 
+line: Some(6284), 
+routine: 
+Some("ATRewriteTable") }
+
+

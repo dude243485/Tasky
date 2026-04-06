@@ -1,0 +1,11 @@
+﻿
+> tasky@0.0.0 build
+> tsc -b && vite build
+
+src/components/forms/PasswordInputField.tsx(2,33): error TS2307: Cannot find module '../types/forms' or its corresponding type declarations.
+src/modals/ImageModal.tsx(3,19): error TS6133: 'ImageIcon' is declared but its value is never read.
+src/modals/ImageModal.tsx(3,30): error TS6133: 'Camera' is declared but its value is never read.
+src/modals/ImageModal.tsx(16,30): error TS6133: 'value' is declared but its value is never read.
+src/pages/dashboard/AddTask.tsx(37,21): error TS6133: 'setErrors' is declared but its value is never read.
+src/pages/dashboard/AddTask.tsx(38,27): error TS6133: 'setIsSubmitting' is declared but its value is never read.
+src/types/forms.ts(2,1): error TS6133: 'Dayjs' is declared but its value is never read.

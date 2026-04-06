@@ -24,6 +24,7 @@ model User {
   avatar    String?
   tasks     Task[]
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Task {
@@ -37,5 +38,6 @@ model Task {
   imageUrl    String?
   userId      String
   user        User     @relation(fields: [userId], references: [id])
-  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

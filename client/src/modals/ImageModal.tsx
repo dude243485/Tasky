@@ -1,6 +1,6 @@
 import TaskModal from "./TaskModal";
 import BrandButton from "../components/buttons/BrandButton";
-import { Image as ImageIcon, Camera, X, UploadCloud} from "lucide-react";
+import { X, UploadCloud} from "lucide-react";
 import { useState, useRef } from "react";
 import { type ChangeEvent } from "react";
 
@@ -9,11 +9,10 @@ interface ImageModalProps  {
     isOpen : boolean;
     onClose : () => void;
     setter : ( imageFile : File) => void;
-    value : File | null;
 }
 
 const ImageModal : React.FC<ImageModalProps> = ({
-    isOpen, onClose, setter, value
+    isOpen, onClose, setter
 }) => {
     const [preview, setPreview] = useState<string | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);

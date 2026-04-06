@@ -1,5 +1,5 @@
 import { forwardRef, useState } from "react";
-import type { InputProps } from "../types/forms";
+import type { InputProps } from "../../types/forms";
 import { Eye, EyeOff } from "lucide-react";
 import InputField from "./InputField";
 

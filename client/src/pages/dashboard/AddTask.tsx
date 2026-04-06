@@ -34,8 +34,8 @@ const AddTask = () => {
         description : "",
         image : null,
     });
-    const [ errors, setErrors] = useState<TaskErrors>();
-    const [ isSubmitting, setIsSubmitting] = useState<boolean> ();
+    const [ errors ] = useState<TaskErrors>();
+    const [ isSubmitting ] = useState<boolean> ();
     const [ dateValue, setDateValue ] = useState<Dayjs | null >(dayjs(new Date()));
     const [categoryModal, setCategoryModal] = useState<boolean>();
     const [priorityModal, setPriorityModal] = useState<boolean>();
@@ -172,7 +172,7 @@ const AddTask = () => {
                 { categoryModal && <CategoryModal isOpen= { categoryModal } onClose={() => {setCategoryModal(false)}} setter={ handleCategoryChange } />}
                 { priorityModal && <PriorityModal isOpen = { priorityModal } onClose = { () => { setPriorityModal(false)} } setter = { handlePriorityChange } />}
                 { descriptionModal && <DescriptionModal isOpen = { descriptionModal } onClose = { () => { setDescriptionModal(false)}} setter = { handleDescriptionChange } value = { formData?.description as string } />}
-                { imageModal && <ImageModal isOpen = { imageModal} onClose ={ () => { setImageModal(false) }} setter = { handleImageChange } value = { null } />}
+                { imageModal && <ImageModal isOpen = { imageModal} onClose ={ () => { setImageModal(false) }} setter = { handleImageChange } />}
 
             </form>
             
