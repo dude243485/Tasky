@@ -4,13 +4,14 @@ import { useRef, useState, type ChangeEvent } from "react";
 interface ImageUploadProps {
     onImageSelect : (file : File | null) => void;
     error?: string;
+    initialPreviewUrl?: string | null;
 }
 
 const ImageUpload : React.FC<ImageUploadProps> = (
-    {onImageSelect, error}
+    {onImageSelect, error, initialPreviewUrl}
 ) => {
 
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState<string | null>(initialPreviewUrl || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e : ChangeEvent<HTMLInputElement>) => {

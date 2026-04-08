@@ -1,4 +1,4 @@
-import { createSlice, type  PayloadAction} from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, type  PayloadAction} from "@reduxjs/toolkit"
 import { type Task } from "../types/taskTypes"
 import { dummyTasks } from "../tempData/tasks";
 
@@ -6,10 +6,25 @@ interface TasksState {
     items : Task[];
 }
 
+interface FilterParams {
+
+}
+
 //query database to get Tasks here
 const initialState : TasksState = {
     items : dummyTasks,
 }
+
+export const getTasks = createAsyncThunk("api/tasks", 
+    async ( filter : FilterParams, { rejectWithValue })=> {
+        try {
+            // const res = 
+
+        } catch (err : any){
+            rejectWithValue( err.response?.data?.message || "Task fetch failed!")
+        }
+    }
+)
 
 export const tasksSlice = createSlice ({
     name : "tasks",
@@ -29,6 +44,10 @@ export const tasksSlice = createSlice ({
             state.items =  state.items.filter( t => t.id !== action.payload)
         }
         
+    }, 
+    extraReducers : (builder) => {
+        builder
+        .addCase(getTasks.pending, () => {})
     }
 }) 
 

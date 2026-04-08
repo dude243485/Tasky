@@ -1,5 +1,5 @@
 import type { ProfileEditData, ProfileEditErrors } from "../../types/forms";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import InputField from "../../components/forms/InputField";
 import { Mail, TriangleAlert, UserRound } from "lucide-react";
@@ -7,14 +7,35 @@ import ImageUpload from "../../components/forms/ImageUpload";
 import dayjs, { Dayjs } from "dayjs";
 import BrandButton from "../../components/buttons/BrandButton";
 import DatePickerValue from "../../components/materials-ui/DatePickerValue";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { updateUserProfile } from "../../store/authSlice";
 
 
 
 function ProfilEditForm() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+
   const [formData, setFormData] = useState<ProfileEditData>({});
   const [errors, setErrors] = useState<ProfileEditErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [dobValue, setDobValue] = useState<Dayjs | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstname: user.firstName || user.name || "",
+        lastname: user.lastName || "",
+        email: user.email || "",
+      });
+      if (user.dob) {
+        setDobValue(dayjs(user.dob));
+      }
+    }
+  }, [user]);
+
 
   const validateForm = (): ProfileEditErrors => {
     const newErrors: ProfileEditErrors = {};
@@ -54,7 +75,7 @@ function ProfilEditForm() {
     return newErrors;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const validationErrors = validateForm();
@@ -67,18 +88,23 @@ function ProfilEditForm() {
     setIsSubmitting(true);
 
     try {
-      alert("Form was submitted (API Disabled)");
-      setFormData({
-          email: "",
-          firstname: "",
-          lastname: "",
-      });
-      navigate("/dashboard");
-      console.log("formData: ", formData);
+      const payload = new FormData();
+      if (formData.firstname) payload.append("firstName", formData.firstname);
+      if (formData.lastname) payload.append("lastName", formData.lastname);
+      if (formData.email) payload.append("email", formData.email);
+      if (formData.dob) payload.append("dob", formData.dob);
+      if (formData.profilePicture) payload.append("avatar", formData.profilePicture);
 
-    } catch (error) {
+      await dispatch(updateUserProfile(payload)).unwrap();
+      setSuccessMsg("Profile updated successfully!");
+      // Briefly show success before navigating
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
+
+    } catch (error: any) {
       console.error("Profile update error:", error);
-      setErrors({ submit: "Failed to update profile, please try again" });
+      setErrors({ submit: typeof error === "string" ? error : "Failed to update profile, please try again" });
       setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);
@@ -100,9 +126,7 @@ function ProfilEditForm() {
     }
   };
 
-  const [dobValue, setDobValue] = useState<Dayjs | null>(
-    dayjs("2000-01-01")
-  );
+
 
   const handleDobUpdate = (dateString: Dayjs | null) => {
     const ds = dateString?.format("YYYY-MM-DD");
@@ -118,7 +142,11 @@ function ProfilEditForm() {
 
   return (
     <form aria-label="Edit profile form" onSubmit={handleSubmit} noValidate>
-      <ImageUpload onImageSelect={handleUploadPhoto} error={errors.profilePicture} />
+      <ImageUpload 
+        onImageSelect={handleUploadPhoto} 
+        error={errors.profilePicture} 
+        initialPreviewUrl={user?.avatar ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}` : null}
+      />
 
       <InputField
         label="Firstname"
@@ -178,6 +206,17 @@ function ProfilEditForm() {
           <div className="flex text-[9px]">
             <TriangleAlert className="size-5 text-brand-error-400" />
             <p className="text-brand-error-600 ml-3">{errors.submit}</p>
+          </div>
+        </div>
+      )}
+
+      {successMsg && (
+        <div
+          role="alert"
+          className="mb-6 p-3 bg-brand-success-100 border-brand-success-400 border rounded-md"
+        >
+          <div className="flex text-[14px]">
+            <p className="text-brand-success-600 ml-3 font-semibold">{successMsg}</p>
           </div>
         </div>
       )}
