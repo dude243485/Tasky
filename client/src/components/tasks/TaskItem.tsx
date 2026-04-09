@@ -67,7 +67,7 @@ const TaskItem = ({
                         )}
                     </div>
                     <button
-                        className={`cursor-pointer p-2 rounded-full justify-center flex items-center transition-all duration-300 ease-in-out
+                        className={`cursor-pointer p-2 rounded-full justify-center flex items-center transition-all duration-300 ease-in-out active:scale-110
                             ${item.status === "pending"
                                 ? "bg-slate-200 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-300"
                                 : "bg-brand-success-200 text-brand-success-800 hover:bg-brand-success-100 hover:text-brand-success-700"

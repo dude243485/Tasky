@@ -64,7 +64,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
 
                             className={` ${isSelected ? " relative bg-slate-950 text-slate-50 dark:bg-slate-50 dark:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 hover:text-slate-200"
                                 : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300 text-slate-700 "} 
-                        flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-300 group relative
+                        flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-100 group relative
                         `}>
                             <span className="text-xs font-bold   uppercase tracking-widest">
                                 {format(date, "eeeeee")}
@@ -78,7 +78,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
                                     onClick={() => dispatch(setSelectedDate(date.toISOString()))}
                                     className={`
                                     flex items-center justify-center w-10 h-10 rounded-full font-bold transition-all mx-2 
-                                    ${isSelected ? "bg-brand-primary-600 text-white shadow-md" : "text-slate-700 hover:bg-slate-100"}`}
+                                    ${isSelected ? "bg-brand-primary-600 text-white shadow-md" : "dark:text-slate-300 dark:hover:text-slate-700 text-slate-700 hover:bg-slate-100"}`}
                                 >
                                     {format(date, "d")}
                                 </button>

@@ -7,14 +7,12 @@ import { ProfileData } from "../../tempData/ProfileData"
 import PopupModal from "../../modals/PopupModal"
 import BrandButton from "../../components/buttons/BrandButton"
 import { LogOut, Palette } from "lucide-react"
-import { useAppDispatch } from "../../store/hooks"
-import { logout } from "../../store/authSlice"
 import { useTheme } from "../../services/ThemeContext"
+import LogoutModal from "../../modals/LogoutModal"
 
 
 const ViewProfile = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const { isDark, toggle } = useTheme();
   const [logoutModalOpen, setLogoutModalOpen] = useState<boolean>(false);
   const [themeModalOpen, setThemeModalOpen] = useState<boolean>(false);
@@ -32,16 +30,8 @@ const ViewProfile = () => {
     setThemeModalOpen(true);
   }
 
-
-
   const handleLogout = () => {
     setLogoutModalOpen(true);
-  }
-
-  const confirmLogout = () => {
-    dispatch(logout());
-    setLogoutModalOpen(false);
-    navigate('/signin');
   }
 
   const ProfileActions = {
@@ -76,33 +66,13 @@ const ViewProfile = () => {
         </div>
       </div>
 
-      <PopupModal
+      {/*logout modal*/}
+      <LogoutModal
         isOpen={logoutModalOpen}
         onClose={() => setLogoutModalOpen(false)}
         icon={LogOut}
-      >
-        <div className="flex flex-col gap-4 mb-4 mt-8">
-          <h3 className="font-bold text-[20px] text-center">Confirm Logout</h3>
-          <p className="text-[12px] text-center">
-            Are you sure you want to log out of your Tasky account? Your session will be terminated.
-          </p>
-        </div>
-        <div className="flex flex-col gap-3">
-          <BrandButton
-            onClick={confirmLogout}
-            variant="primary"
-          >
-            <p className="text-[14px]">Yes, Log Out</p>
-          </BrandButton>
+      />
 
-          <BrandButton
-            onClick={() => setLogoutModalOpen(false)}
-            variant="secondary"
-          >
-            <p className="text-[14px]">Cancel</p>
-          </BrandButton>
-        </div>
-      </PopupModal>
 
       <PopupModal
         isOpen={themeModalOpen}

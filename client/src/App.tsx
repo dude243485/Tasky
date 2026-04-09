@@ -1,4 +1,4 @@
-import {  Routes, Route, Navigate } from "react-router"
+import { Routes, Route, Navigate } from "react-router"
 import { useEffect } from "react"
 import { useAppDispatch } from "./store/hooks"
 import { fetchCurrentUser } from "./store/authSlice"
@@ -27,31 +27,28 @@ function App() {
 
   return (
     <Routes >
-        <Route path = "/" element = {<Navigate to = "onboarding" />}></Route>
-        <Route path = "/onboarding" element = {<OnboardingLayout />}>
-          <Route index element = {<Navigate to="step-1" />} />
-          <Route  path="step-1" element =  {<StepOne />} />
-          <Route path="step-2" element = {<StepTwo />} />
-          <Route path = "step-3" element = {<StepThree />} />
-        </Route>
-        <Route path = "/signin" element = {<SignIn />} />
-        <Route path = "/signup" element = { <SignUp />} />
-        <Route path = "/profile" >
-          <Route path = "view-profile" element = { <ViewProfile />}></Route>
-          <Route path = "edit-profile" element = { <EditProfile />}></Route>
-        </Route>
+      <Route path="/" element={<Navigate to="onboarding" />}></Route>
+      <Route path="/onboarding" element={<OnboardingLayout />}>
+        <Route index element={<Navigate to="step-1" />} />
+        <Route path="step-1" element={<StepOne />} />
+        <Route path="step-2" element={<StepTwo />} />
+        <Route path="step-3" element={<StepThree />} />
+      </Route>
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/profile" >
+        <Route path="view-profile" element={<ViewProfile />}></Route>
+        <Route path="edit-profile" element={<EditProfile />}></Route>
+      </Route>
 
-        <Route path = "/add-task" element = { <AddTask />} />
-        <Route path = "/dashboard" element = { <DashboardLayout />}>
-          <Route index element = {<Home /> }/>
-          
-          <Route path = "tasks" element = { <TasksExplore />} />
-          <Route path = "settings" />
-           
-        </Route>
-        {/* <Route path = "/dashboard" element= {} /> */}
+      <Route path="/add-task" element={<AddTask />} />
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<Home />} />
+        <Route path="tasks" element={<TasksExplore />} />
+      </Route>
+      {/* <Route path = "/dashboard" element= {} /> */}
     </Routes>
-    
+
   )
 }
 
