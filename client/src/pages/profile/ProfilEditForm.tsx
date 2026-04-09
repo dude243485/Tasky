@@ -25,9 +25,11 @@ function ProfilEditForm() {
 
   useEffect(() => {
     if (user) {
+      const firstName = user.name.split(" ")[0]
+      const lastName = user.name.split(" ")[1]
       setFormData({
-        firstname: user.firstName || user.name || "",
-        lastname: user.lastName || "",
+        firstname: user.firstName || firstName || "",
+        lastname: user.lastName || lastName || "",
         email: user.email || "",
       });
       if (user.dob) {
@@ -142,9 +144,9 @@ function ProfilEditForm() {
 
   return (
     <form aria-label="Edit profile form" onSubmit={handleSubmit} noValidate>
-      <ImageUpload 
-        onImageSelect={handleUploadPhoto} 
-        error={errors.profilePicture} 
+      <ImageUpload
+        onImageSelect={handleUploadPhoto}
+        error={errors.profilePicture}
         initialPreviewUrl={user?.avatar ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}` : null}
       />
 

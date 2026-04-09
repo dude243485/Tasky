@@ -1,45 +1,60 @@
 import { useNavigate } from "react-router"
+import { useState } from "react"
 import ProfileContainer from "../../components/profile/ProfileContainer"
 import ProfileHeader from "../../components/profile/ProfileHeader"
 import ProfileItems from "../../components/profile/ProfileItems"
 import { ProfileData } from "../../tempData/ProfileData"
+import PopupModal from "../../modals/PopupModal"
+import BrandButton from "../../components/buttons/BrandButton"
+import { LogOut, Palette } from "lucide-react"
+import { useAppDispatch } from "../../store/hooks"
+import { logout } from "../../store/authSlice"
+import { useTheme } from "../../services/ThemeContext"
 
 
 const ViewProfile = () => {
   const navigate = useNavigate();
-  
+  const dispatch = useAppDispatch();
+  const { isDark, toggle } = useTheme();
+  const [logoutModalOpen, setLogoutModalOpen] = useState<boolean>(false);
+  const [themeModalOpen, setThemeModalOpen] = useState<boolean>(false);
+
   const handleMyProfile = () => {
-    console.log("You clicked my profile")
+    navigate("/profile/edit-profile")
+
   }
 
-  const handlePassword= () => {
-    console.log("you clicked change password")
+  const handlePassword = () => {
+    alert("This feature is not available yet")
   }
 
   const handleTheme = () => {
-    console.log("you clicked theme")
+    setThemeModalOpen(true);
   }
 
-  const hanldeTimeFormat = () => {
-    console.log("you clicked time format")
-  }
+
 
   const handleLogout = () => {
-    console.log(" you clicked log out")
+    setLogoutModalOpen(true);
+  }
+
+  const confirmLogout = () => {
+    dispatch(logout());
+    setLogoutModalOpen(false);
+    navigate('/signin');
   }
 
   const ProfileActions = {
-    "My Profile" : handleMyProfile,
-    "Change Password" : handlePassword,
-    "Theme" : handleTheme,
-    "Time Format" : hanldeTimeFormat,
-    "Logout" : handleLogout
+    "Edit Profile": handleMyProfile,
+    "Change Password": handlePassword,
+    "Theme": handleTheme,
+    "Logout": handleLogout
   }
 
   const newProfileData = ProfileData.map((item) => {
     return {
       ...item,
-      ["onClick"] : ProfileActions[item.title as keyof typeof ProfileActions]
+      ["onClick"]: ProfileActions[item.title as keyof typeof ProfileActions]
     }
   })
   const accountData = newProfileData.slice(0, 1);
@@ -47,19 +62,80 @@ const ViewProfile = () => {
 
   const handleBack = () => {
     navigate("/dashboard")
-    
+
   }
 
   return (
-    <div className = "min-h-screen bg-brand-primary-600 flex flex-col pt-40 ">
-      <ProfileHeader variant = "transparent" onClick={ handleBack } />
+    <div className="min-h-screen bg-brand-primary-600 flex flex-col pt-40 ">
+      <ProfileHeader variant="transparent" onClick={handleBack} />
       <div className="w-full relative flex-1 h-full max-w-md bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 rounded-t-4xl px-6 pt-27">
         <ProfileContainer />
-        <div className = "flex flex-col gap-3 z-100">
-          <ProfileItems label = {"Account"} items={accountData} />
-          <ProfileItems label = {"Settings"} items = {settingsData} />
+        <div className="flex flex-col gap-3 z-100">
+          <ProfileItems label={"Account"} items={accountData} />
+          <ProfileItems label={"Settings"} items={settingsData} />
         </div>
       </div>
+
+      <PopupModal
+        isOpen={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+        icon={LogOut}
+      >
+        <div className="flex flex-col gap-4 mb-4 mt-8">
+          <h3 className="font-bold text-[20px] text-center">Confirm Logout</h3>
+          <p className="text-[12px] text-center">
+            Are you sure you want to log out of your Tasky account? Your session will be terminated.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3">
+          <BrandButton
+            onClick={confirmLogout}
+            variant="primary"
+          >
+            <p className="text-[14px]">Yes, Log Out</p>
+          </BrandButton>
+
+          <BrandButton
+            onClick={() => setLogoutModalOpen(false)}
+            variant="secondary"
+          >
+            <p className="text-[14px]">Cancel</p>
+          </BrandButton>
+        </div>
+      </PopupModal>
+
+      <PopupModal
+        isOpen={themeModalOpen}
+        onClose={() => setThemeModalOpen(false)}
+        icon={Palette}
+      >
+        <div className="flex flex-col gap-4 mb-6 mt-8 items-center">
+          <h3 className="font-bold text-[20px] text-center">App Theme</h3>
+          <p className="text-[12px] text-center mb-2">
+            Switch between light mode and dark mode to suit your preferences.
+          </p>
+
+          <div className="flex items-center gap-4 py-4">
+            <span className={`text-[14px] font-semibold ${!isDark ? 'text-brand-primary-600' : 'text-slate-400'}`}>Light</span>
+            <button
+              onClick={() => toggle()}
+              className={`w-16 h-8 rounded-full p-1 transition-colors duration-300 ease-in-out flex items-center cursor-pointer ${isDark ? 'bg-brand-primary-600' : 'bg-slate-300'}`}
+              aria-pressed={isDark}
+            >
+              <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-in-out ${isDark ? 'translate-x-8' : 'translate-x-0'}`} />
+            </button>
+            <span className={`text-[14px] font-semibold ${isDark ? 'text-brand-primary-600' : 'text-slate-400'}`}>Dark</span>
+          </div>
+        </div>
+        <div className="flex flex-col gap-3">
+          <BrandButton
+            onClick={() => setThemeModalOpen(false)}
+            variant="primary"
+          >
+            <p className="text-[14px]">Done</p>
+          </BrandButton>
+        </div>
+      </PopupModal>
     </div>
   )
 }

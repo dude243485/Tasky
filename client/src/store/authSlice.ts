@@ -52,6 +52,18 @@ export const updateUserProfile = createAsyncThunk(
     }
 );
 
+export const fetchCurrentUser = createAsyncThunk(
+    "auth/fetchCurrentUser",
+    async (_, { rejectWithValue }) => {
+        try {
+            const res = await userService.getUserInfo();
+            return res.data.user;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.message || "Failed to fetch user");
+        }
+    }
+);
+
 
 
 const authSlice = createSlice({
@@ -104,6 +116,20 @@ const authSlice = createSlice({
         .addCase(updateUserProfile.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
+        })
+        .addCase(fetchCurrentUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload;
+        })
+        .addCase(fetchCurrentUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            // Clear invalid token if fetching info fails
+            localStorage.removeItem("token");
         });
     }
 })

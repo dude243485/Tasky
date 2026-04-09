@@ -1,4 +1,7 @@
 import {  Routes, Route, Navigate } from "react-router"
+import { useEffect } from "react"
+import { useAppDispatch } from "./store/hooks"
+import { fetchCurrentUser } from "./store/authSlice"
 import StepOne from "./pages/onboarding/StepOne"
 import StepTwo from "./pages/onboarding/StepTwo"
 import StepThree from "./pages/onboarding/StepThree"
@@ -13,6 +16,14 @@ import TasksExplore from "./pages/tasksExplore/TasksExplore"
 import AddTask from "./pages/dashboard/AddTask"
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(fetchCurrentUser());
+    }
+  }, [dispatch]);
 
   return (
     <Routes >

@@ -1,7 +1,7 @@
 import InputField from "./InputField";
 import PasswordInputField from "./PasswordInputField";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { BookDashed, FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
+import { FingerprintPattern, Mail, Square, SquareCheckBig, TriangleAlert } from "lucide-react";
 import { type FormErrors } from "../../types/forms";
 import BrandButton from "../buttons/BrandButton";
 import { useAppDispatch } from "../../store/hooks";
@@ -81,7 +81,7 @@ const SignInForm: React.FC = () => {
     }
 
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> | void => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault()
 
         const validationErrors = validateForm();
@@ -102,7 +102,6 @@ const SignInForm: React.FC = () => {
             if (signinUser.fulfilled.match(result)) {
                 navigate("/dashboard")
             }
-
 
         } catch (error) {
             console.error("Sign in error : ", error);
