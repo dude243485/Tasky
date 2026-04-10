@@ -107,7 +107,6 @@ const AddTask = () => {
 
     const handleConfirmClick = async (e: any) => {
         e.preventDefault();
-        console.log(formData);
         if (!formData.title) {
             setErrors({ name: "Title is required" });
             return;
