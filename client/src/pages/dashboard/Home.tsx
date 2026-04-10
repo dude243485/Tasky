@@ -1,6 +1,6 @@
 import DaySlider from "../../components/dashboard/DaySlider";
 import TaskList from "../../components/tasks/TaskList";
-import { dummyTasks } from "../../tempData/tasks";
+
 import { useAppSelector } from "../../store/hooks";
 import { parseISO, isSameDay } from "date-fns";
 import { Plus } from "lucide-react";
@@ -17,7 +17,7 @@ const Home = () => {
 
 
     const handleAddTaskButtonClick = () => {
-        console.log("You clicked add task");
+
         navigate("/add-task");
 
         //...
@@ -31,7 +31,7 @@ const Home = () => {
                 <p className="text-slate-600 dark:text-slate-400">Let's finish your tasks today</p>
             </div>
             <div className="py-6">
-                <DaySlider tasks={dummyTasks} />
+                <DaySlider tasks={items} />
             </div>
             <div className="py-8 rounded-2xl  text-slate-900 dark:text-slate-100  ">
                 <TaskList taskItems={filteredTasks} />

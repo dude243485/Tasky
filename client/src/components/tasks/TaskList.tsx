@@ -3,6 +3,9 @@ import TaskItem from "./TaskItem";
 import { Plus } from "lucide-react";
 import calendarIcon from "../../assets/calendar_icon.png";
 import {  type Task } from "../../types/taskTypes";
+import { useAppDispatch } from "../../store/hooks";
+import { toggleTaskStatus, deleteTaskAction, updateTask } from "../../store/taskSlice";
+import { useNavigate } from "react-router";
 
 interface TaskListProps {
     taskItems : Task[]
@@ -10,7 +13,28 @@ interface TaskListProps {
 
 const TaskList = ( {taskItems} : TaskListProps) => {
 
-    
+
+    const dispatch = useAppDispatch();
+
+    const handleStatusChange = (task: Task) => {
+        dispatch(toggleTaskStatus(task.id));
+    }
+
+    const handleDelete = (task: Task) => {
+        dispatch(deleteTaskAction(task.id));
+    }
+
+    const handleDescriptionChange = (task: Task, desc: string) => {
+        const formData = new FormData();
+        formData.append("description", desc);
+        dispatch(updateTask({ id: task.id, formData }));
+    }
+
+    const navigate = useNavigate();
+    const handleEdit = (task: Task) => {
+        // Navigate to add-task with state for future editing support
+        navigate("/add-task", { state: { taskToEdit: task } });
+    }
 
     return (
         <div className="space-y-4">
@@ -18,7 +42,14 @@ const TaskList = ( {taskItems} : TaskListProps) => {
             {taskItems.length > 0 ? (
                 
                 taskItems.map((task) => (
-                    <TaskItem key = {task.id} item = {task} />
+                    <TaskItem 
+                        key = {task.id} 
+                        item = {task} 
+                        onStatusChange={handleStatusChange}
+                        onDelete={handleDelete}
+                        onDescriptionChange={handleDescriptionChange}
+                        onEdit={handleEdit}
+                    />
                 ))
             ) : (
                 <div className = "h-60 w-full flex items-center justify-center flex-col ">

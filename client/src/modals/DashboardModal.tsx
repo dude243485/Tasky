@@ -85,5 +85,4 @@ const DashboardModal: React.FC<DashboardModalProps> = ({ isOpen, onClose }) => {
         </div>, document.body
     )
 }
-
 export default DashboardModal;

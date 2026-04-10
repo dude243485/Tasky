@@ -26,6 +26,12 @@ const TaskItem = ({
         polishedDescription = item.description.slice(0, 30) + " ...";
     }
 
+    const getImageUrl = (path: string) => {
+        if (path.startsWith("http")) return path;
+        const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        return `${baseUrl}${path}`;
+    };
+
     const category = Categories[item.category as keyof typeof Categories];
 
     const handleDoubleClick = () => {
@@ -39,9 +45,9 @@ const TaskItem = ({
                 onDoubleClick={handleDoubleClick}
             >
                 {item.image && (
-                    <div className="w-full h-35 rounded-xl overflow-hidden">
+                    <div className="w-full h-35 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                         <img
-                            src={item.image}
+                            src={getImageUrl(item.image)}
                             alt="task image"
                             className="h-full w-full object-cover"
                         />

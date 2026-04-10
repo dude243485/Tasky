@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format, addDays, subDays, startOfWeek, isSameDay, parseISO } from "date-fns";
+import { format, addDays, subDays,  isSameDay, parseISO } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Task } from "../../types/taskTypes";
 import { setSelectedDate } from "../../store/calendarSlice";
@@ -21,7 +21,8 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
     const selectedDateStr = useAppSelector((state) => state.calendar.selectedDate);
     const selectedDate = parseISO(selectedDateStr);
 
-    const [activeWeekStart, setActiveWeekStart] = useState(startOfWeek(selectedDate));
+    // Center the slider on the initial selected date (selectedDate is in the middle of 5 items)
+    const [activeWeekStart, setActiveWeekStart] = useState(subDays(selectedDate, 2));
 
 
 
