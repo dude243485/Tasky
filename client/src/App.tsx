@@ -14,6 +14,7 @@ import DashboardLayout from "./pages/dashboard/DashboardLayout"
 import Home from "./pages/dashboard/Home"
 import TasksExplore from "./pages/tasksExplore/TasksExplore"
 import AddTask from "./pages/dashboard/AddTask"
+import CallbackPage from "./pages/google/CallbackPage"
 
 function App() {
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ function App() {
         <Route path="step-2" element={<StepTwo />} />
         <Route path="step-3" element={<StepThree />} />
       </Route>
+      <Route path = "/auth/callback" element = {<CallbackPage />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/profile" >

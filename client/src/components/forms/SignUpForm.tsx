@@ -33,12 +33,10 @@ const SignUpForm: React.FC = () => {
     const navigate = useNavigate();
 
     const handleProfile = () => {
-        alert("navigate to the profile page")
         navigate("/profile/edit-profile")
     }
 
     const handleExplore = () => {
-        alert("navigate to the dashboard")
         navigate("/dashboard")
     }
 
@@ -209,31 +207,37 @@ const SignUpForm: React.FC = () => {
                     Icon={User}
                 />
 
-                <PasswordInputField
-                    label="Password"
-                    name="password"
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    error={errors.password}
-                    required={true}
-                    disabled={isSubmitting}
-                    Icon={FingerprintPattern}
-                />
+                <div className="md:flex md:gap-4 ">
+                    <PasswordInputField
+                        label="Password"
+                        name="password"
+                        placeholder="Enter your password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        error={errors.password}
+                        required={true}
+                        disabled={isSubmitting}
+                        Icon={FingerprintPattern}
+                    />
 
-                <PasswordInputField
-                    label="Confirm password"
-                    name="confirmPassword"
-                    placeholder="Enter your password"
-                    value={confirmPassword}
-                    onChange={handleConfirmPassword}
-                    error={errors.password}
-                    required={true}
-                    disabled={isSubmitting}
-                    Icon={FingerprintPattern}
-                />
+                    <PasswordInputField
+                        label="Confirm password"
+                        name="confirmPassword"
+                        placeholder="Enter your password"
+                        value={confirmPassword}
+                        onChange={handleConfirmPassword}
+                        error={errors.password}
+                        required={true}
+                        disabled={isSubmitting}
+                        Icon={FingerprintPattern}
+                    />
 
-                <div className="flex justify-between items-start gap-2 text-[12px] mb-4">
+
+                </div>
+
+
+
+                <div className="flex justify-between md:justify-start items-start gap-2 text-[12px] mb-4">
                     <button
                         onClick={toggleAcceptTerms}
                         className="cursor-pointer">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format, addDays, subDays,  isSameDay, parseISO } from "date-fns";
+import { format, addDays, subDays, isSameDay, parseISO } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Task } from "../../types/taskTypes";
 import { setSelectedDate } from "../../store/calendarSlice";
@@ -61,11 +61,12 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
                     const dayHasTasks = hasTasks(date);
 
                     return (
-                        <div key={date.toString()}
-
+                        <button 
+                            key={date.toString()}
+                            onClick={() => dispatch(setSelectedDate(date.toISOString()))}
                             className={` ${isSelected ? " relative bg-slate-950 text-slate-50 dark:bg-slate-50 dark:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-700 hover:text-slate-200"
                                 : "hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300 text-slate-700 "} 
-                        flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-100 group relative
+                        flex flex-col items-center px-1.5 py-1.5 gap-3 rounded-full cursor-pointer transition-colors   dark:text-slate-100 group relative border-none outline-none
                         `}>
                             <span className="text-xs font-bold   uppercase tracking-widest">
                                 {format(date, "eeeeee")}
@@ -73,16 +74,15 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
 
                             <div className="relative flex flex-col items-center px-2">
                                 {isSelected && (
-                                    <div className="absolute -top-14 botom-[-8px] w-12 bg-slate-900 rounded-full -z-10 " />
+                                    <div className="absolute -top-14  -bottom-2 w-12 bg-slate-900 rounded-full -z-10 " />
                                 )}
-                                <button
-                                    onClick={() => dispatch(setSelectedDate(date.toISOString()))}
+                                <div
                                     className={`
                                     flex items-center justify-center w-10 h-10 rounded-full font-bold transition-all mx-2 
-                                    ${isSelected ? "bg-brand-primary-600 text-white shadow-md" : "dark:text-slate-300 dark:hover:text-slate-700 text-slate-700 hover:bg-slate-100"}`}
+                                    ${isSelected ? "bg-brand-primary-600 text-white shadow-md" : "dark:text-slate-300 text-slate-700"}`}
                                 >
                                     {format(date, "d")}
-                                </button>
+                                </div>
                             </div>
 
                             {dayHasTasks && (
@@ -91,7 +91,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
                                         ${isSelected ? "bg-brand-primary-600" : "bg-brand-primary-300"}`}
                                 />
                             )}
-                        </div>
+                        </button>
                     )
                 })}
 
