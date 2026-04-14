@@ -9,7 +9,7 @@ function ProfileContainer() {
 
   return (
     <div className="flex flex-col gap-2 absolute left-0 right-0 top-0 -translate-y-1/2  w-full items-center justify-center">
-      <div className="aspect-square w-25 h-25 max-w-50 p-1 mx-auto  bg-slate-100 dark:bg-slate-800 rounded-xl">
+      <div className="aspect-square w-25 h-25 max-w-50 md:w-40 md:h-40 p-1 mx-auto  bg-slate-100 dark:bg-slate-800 rounded-xl">
         <img
           src={userAvatar}
           alt="avatar image"

@@ -58,9 +58,9 @@ const ViewProfile = () => {
   return (
     <div className="min-h-screen bg-brand-primary-600 flex flex-col pt-40 ">
       <ProfileHeader variant="transparent" onClick={handleBack} />
-      <div className="w-full relative flex-1 h-full max-w-md bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 rounded-t-4xl px-6 pt-27">
+      <div className="w-full relative flex-1 h-full max-w-md md:max-w-none bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 rounded-t-4xl px-6 pt-27">
         <ProfileContainer />
-        <div className="flex flex-col gap-3 z-100">
+        <div className="flex flex-col gap-3 z-100 md:flex-row  md:px-30 md:pt-12 md:gap-4">
           <ProfileItems label={"Account"} items={accountData} />
           <ProfileItems label={"Settings"} items={settingsData} />
         </div>

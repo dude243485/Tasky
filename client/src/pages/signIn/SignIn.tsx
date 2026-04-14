@@ -28,7 +28,7 @@ const SignIn = () => {
     return (
         <div className="min-h-screen bg-brand-primary-600 flex flex-col justify-end md:justify-center md:items-center ">
 
-            <div className="w-full max-w-md bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 rounded-t-4xl px-8">
+            <div className="w-full max-w-md bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 md:rounded-4xl rounded-t-4xl px-8">
                 <div className="mt-10 text-center gap-2 mb-6">
                     <h2 className="font-bold text-[24px] ">Sign In</h2>
                     <p className="font-medium text-[14px] dark:text-slate-300 text-slate-700">Sign in to your account</p>
