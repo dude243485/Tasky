@@ -4,12 +4,13 @@ import daniel from "/images/daniel.png";
 import { useNavigate } from "react-router";
 import DashboardModal from "../../modals/DashboardModal";
 import { useAppSelector } from "../../store/hooks";
+import { resolveAvatarUrl } from "../../utils/avatar";
 
 
 const DashboardMobileHeader = () => {
 
     const user = useAppSelector((state) => state.auth.user)
-   
+
     const navigate = useNavigate()
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -59,8 +60,9 @@ const DashboardMobileHeader = () => {
                 >
                     {/*Notice special spells to use backend image*/}
                     <img
-                        src={user?.avatar ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}` : daniel}
+                        src={resolveAvatarUrl(user?.avatar) ?? daniel}
                         alt={"profile image"}
+                        referrerPolicy="no-referrer"
                         className="object-cover h-full w-full transition-all hover:scale-[1.05]"
                     />
                 </button>

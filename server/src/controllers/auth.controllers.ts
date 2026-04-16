@@ -27,10 +27,8 @@ export async function googleCallback(req: Request, res: Response) {
         return res.status(400).json({ error: "Missing authorization code" });
     }
     try {
-        //exchange code
         const googleUser = await getGoogleUserfromCode(code);
 
-        //find or create user in DB
         let user = await prisma.user.findUnique({
             where: { googleId: googleUser.id },
         });
@@ -41,7 +39,6 @@ export async function googleCallback(req: Request, res: Response) {
             });
 
             if (user) {
-                //link google to existing manually-registered account
                 user = await prisma.user.update({
                     where: { id: user.id },
                     data: {
@@ -50,7 +47,6 @@ export async function googleCallback(req: Request, res: Response) {
                     },
                 });
             } else {
-                //new user
                 user = await prisma.user.create({
                     data: {
                         email: googleUser.email,
@@ -64,21 +60,8 @@ export async function googleCallback(req: Request, res: Response) {
             }
         }
 
-        // issue jwt
-        const accessToken = generateToken(user.id, user.email)
+        const accessToken = generateToken(user.id, user.email);
 
-        //return json
-        // return res.status(200).json({
-        //     user : {
-        //         id: user.id,
-        //         email: user.email,
-        //         name : user.name,
-        //         firstName: user.firstName,
-        //         lastName : user.lastName,
-        //         avatar: user.avatar,
-        //     },
-        //     accessToken: accessToken
-        // })
         const params = new URLSearchParams({
             accessToken: accessToken,
             id: user.id,
@@ -87,9 +70,10 @@ export async function googleCallback(req: Request, res: Response) {
             firstName: user.firstName ?? "",
             lastName: user.lastName ?? "",
             avatar: user.avatar ?? "",
-        })
+        });
 
-        return res.redirect(`${process.env.CLIENT_URL}/auth/callback?${params.toString()}`)
+        const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?${params.toString()}`;
+        return res.redirect(redirectUrl);
 
     } catch (err: any) {
         return res.redirect(`${process.env.CLIENT_URL}/signin?error=google_failed`);

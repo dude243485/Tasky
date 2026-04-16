@@ -9,6 +9,7 @@ import BrandButton from "../../components/buttons/BrandButton";
 import DatePickerValue from "../../components/materials-ui/DatePickerValue";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { updateUserProfile } from "../../store/authSlice";
+import { resolveAvatarUrl } from "../../utils/avatar";
 
 
 
@@ -147,7 +148,7 @@ function ProfilEditForm() {
       <ImageUpload
         onImageSelect={handleUploadPhoto}
         error={errors.profilePicture}
-        initialPreviewUrl={user?.avatar ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}` : null}
+        initialPreviewUrl={resolveAvatarUrl(user?.avatar)}
       />
 
       <InputField

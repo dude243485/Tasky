@@ -27,7 +27,7 @@ const Home = () => {
     return (
         <div className="px-6 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-20 ">
             <div className="">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Hi, {user.name}</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Hi, {user?.name ?? user?.firstName ?? "there"}</h3>
                 <p className="text-slate-600 dark:text-slate-400">Let's finish your tasks today</p>
             </div>
             <div className="py-6">
