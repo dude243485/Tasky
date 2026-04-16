@@ -58,7 +58,6 @@ const DashboardMobileHeader = () => {
                     onClick={handleProfile}
                     className={`overflow-hidden h-11 w-11 cursor-pointer rounded-full`}
                 >
-                    {/*Notice special spells to use backend image*/}
                     <img
                         src={resolveAvatarUrl(user?.avatar) ?? daniel}
                         alt={"profile image"}
