@@ -39,7 +39,7 @@ const DaySlider = ({ tasks }: DateSliderProps) => {
 
 
     return (
-        <div className="flex flex-col items-center p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm max-w-md">
+        <div className="flex flex-col items-center p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm w-full">
             <div className="flex items-center justify-between mb-10 px-2 w-full">
                 <button
                     onClick={handlePrevWeek}

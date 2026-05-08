@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { protect } from "../middleware/auth.middleware";
 import { uploadImage, processImage, handleMulterError } from "../lib/upload";
-import { getTasks, createTask, getTask, updateTask, deleteTask, toggleTask } from "../controllers/tasks.controller"
+import { getTasks, createTask, getTask, updateTask, deleteTask, toggleTask, getWeeklyStats } from "../controllers/tasks.controller"
+
 
 
 const router = Router();
@@ -18,7 +19,12 @@ router.post("/", ...withImage, createTask);
 
 //GET /api/tasks/:id - get single task
 //DELETE /api/tasks/:id
+
+// Stats — must be before /:id to avoid shadowing
+router.get("/stats/weekly", getWeeklyStats);
+
 router.get("/:id", getTask);
+
 
 //PATCH /api/tasks/:id/toggle - must be registered BEFORE /:id to avoid route shadowing
 router.patch("/:id/toggle", toggleTask);

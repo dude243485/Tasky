@@ -33,7 +33,7 @@ const AddTask = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useAppDispatch();
-    
+
     // Check if we are editing an existing task passed via router state
     const taskToEdit = location.state?.taskToEdit as Task | undefined;
 
@@ -135,83 +135,87 @@ const AddTask = () => {
         }
     }
     return (
-        <div className="p-6 pt-15 min-h-screen w-full max-w-md bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ">
+        <div className="md:flex md:items-center md:justify-center md:bg-brand-primary-600">
 
-            <h4 className="text-2xl font-semibold mb-6">{taskToEdit ? "Edit Task" : "Add New Task"}</h4>
-            <form className="relative">
-                <InputField
-                    label="Task"
-                    name="task"
-                    type="text"
-                    placeholder="Enter task name..."
-                    value={formData?.title}
-                    onChange={handleNameChange}
-                    error={errors?.name}
-                    required={true}
-                    disabled={isSubmitting}
 
-                />
-                <DatePickerValue
-                    onDateChange={handleDateChange}
-                    error={errors?.date}
-                    value={dateValue}
-                    label={"Due Date"}
-                    required={true}
-                />
+            <div className="p-6 pt-15 min-h-screen w-full max-w-md  bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ">
 
-                <NewTaskSetter
-                    icon={Shapes}
-                    title={"Category"}
-                    type={"category"}
-                    data={formData?.category as string}
-                    onClick={() => { setCategoryModal(true) }}
-                />
-                <NewTaskSetter
-                    icon={Flag}
-                    title={"Priority"}
-                    type={"priority"}
-                    data={formData?.priority as string}
-                    onClick={() => { setPriorityModal(true) }}
-                />
-                <NewTaskSetter
-                    icon={MessageCircleDashedIcon}
-                    title={"Description"}
-                    type={"description"}
-                    data={formData?.description as string}
-                    onClick={() => { setDescriptionModal(true) }}
-                />
+                <h4 className="text-2xl font-semibold mb-6">{taskToEdit ? "Edit Task" : "Add New Task"}</h4>
+                <form className="relative">
+                    <InputField
+                        label="Task"
+                        name="task"
+                        type="text"
+                        placeholder="Enter task name..."
+                        value={formData?.title}
+                        onChange={handleNameChange}
+                        error={errors?.name}
+                        required={true}
+                        disabled={isSubmitting}
 
-                <NewTaskSetter
-                    icon={Image}
-                    title={"Image"}
-                    data={formData?.image as File}
-                    type={"image"}
-                    onClick={() => { setImageModal(true) }}
-                />
+                    />
+                    <DatePickerValue
+                        onDateChange={handleDateChange}
+                        error={errors?.date}
+                        value={dateValue}
+                        label={"Due Date"}
+                        required={true}
+                    />
 
-                <div className="mt-20 flex gap-4 items-center justify-center">
-                    <BrandButton
-                        variant="secondary"
-                        onClick={handleCancleClick}
-                    >
-                        Cancel
-                    </BrandButton>
-                    <BrandButton
-                        variant="primary"
-                        onClick={handleConfirmClick}
-                    >
-                        Confirm
-                    </BrandButton>
+                    <NewTaskSetter
+                        icon={Shapes}
+                        title={"Category"}
+                        type={"category"}
+                        data={formData?.category as string}
+                        onClick={() => { setCategoryModal(true) }}
+                    />
+                    <NewTaskSetter
+                        icon={Flag}
+                        title={"Priority"}
+                        type={"priority"}
+                        data={formData?.priority as string}
+                        onClick={() => { setPriorityModal(true) }}
+                    />
+                    <NewTaskSetter
+                        icon={MessageCircleDashedIcon}
+                        title={"Description"}
+                        type={"description"}
+                        data={formData?.description as string}
+                        onClick={() => { setDescriptionModal(true) }}
+                    />
 
-                </div>
-                {/*modals*/}
-                {categoryModal && <CategoryModal isOpen={categoryModal} onClose={() => { setCategoryModal(false) }} setter={handleCategoryChange} />}
-                {priorityModal && <PriorityModal isOpen={priorityModal} onClose={() => { setPriorityModal(false) }} setter={handlePriorityChange} />}
-                {descriptionModal && <DescriptionModal isOpen={descriptionModal} onClose={() => { setDescriptionModal(false) }} setter={handleDescriptionChange} value={formData?.description as string} />}
-                {imageModal && <ImageModal isOpen={imageModal} onClose={() => { setImageModal(false) }} setter={handleImageChange} />}
+                    <NewTaskSetter
+                        icon={Image}
+                        title={"Image"}
+                        data={formData?.image as File}
+                        type={"image"}
+                        onClick={() => { setImageModal(true) }}
+                    />
 
-            </form>
+                    <div className="mt-20 flex gap-4 items-center justify-center">
+                        <BrandButton
+                            variant="secondary"
+                            onClick={handleCancleClick}
+                        >
+                            Cancel
+                        </BrandButton>
+                        <BrandButton
+                            variant="primary"
+                            onClick={handleConfirmClick}
+                        >
+                            Confirm
+                        </BrandButton>
 
+                    </div>
+                    {/*modals*/}
+                    {categoryModal && <CategoryModal isOpen={categoryModal} onClose={() => { setCategoryModal(false) }} setter={handleCategoryChange} />}
+                    {priorityModal && <PriorityModal isOpen={priorityModal} onClose={() => { setPriorityModal(false) }} setter={handlePriorityChange} />}
+                    {descriptionModal && <DescriptionModal isOpen={descriptionModal} onClose={() => { setDescriptionModal(false) }} setter={handleDescriptionChange} value={formData?.description as string} />}
+                    {imageModal && <ImageModal isOpen={imageModal} onClose={() => { setImageModal(false) }} setter={handleImageChange} />}
+
+                </form>
+
+            </div>
         </div>
     );
 }

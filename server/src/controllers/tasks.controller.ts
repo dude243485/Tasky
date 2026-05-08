@@ -3,6 +3,8 @@ import { z } from "zod";
 import type { AuthRequest } from "../middleware/auth.middleware";
 import { prisma } from "../lib/prisma";
 import { deleteImageFile } from "../lib/upload";
+import { startOfWeek, endOfWeek, subWeeks, eachDayOfInterval, format } from "date-fns";
+
 
 const createTaskSchema = z.object({
     title: z.string().min(1, "Title is required").max(200),
@@ -214,3 +216,47 @@ export const toggleTask = async (req: AuthRequest, res: Response): Promise<void>
         res.status(500).json({ error: "Internal server error " });
     }
 }
+
+// ── GET /api/tasks/stats/weekly ──────────────────────────────────────────────
+export const getWeeklyStats = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+        const weekParam = (req.query.week as string) ?? "current";
+
+        // Determine the Sunday-Saturday range for the requested week
+        const now = new Date();
+        const baseDate = weekParam === "last" ? subWeeks(now, 1) : now;
+        const weekStart = startOfWeek(baseDate, { weekStartsOn: 0 }); // Sunday
+        const weekEnd = endOfWeek(baseDate, { weekStartsOn: 0 });   // Saturday
+
+        // Fetch all tasks (any status) whose dueDate falls in the week
+        const tasks = await prisma.task.findMany({
+            where: {
+                userId: req.user!.id,
+                dueDate: { gte: weekStart, lte: weekEnd },
+            },
+            select: { dueDate: true },
+        });
+
+        // Build a count map keyed by "yyyy-MM-dd"
+        const countMap: Record<string, number> = {};
+        for (const task of tasks) {
+            const key = format(task.dueDate, "yyyy-MM-dd");
+            countMap[key] = (countMap[key] ?? 0) + 1;
+        }
+
+        // Generate the full 7-day array Sun → Sat
+        const days = eachDayOfInterval({ start: weekStart, end: weekEnd });
+        const stats = days.map((date) => ({
+            day: format(date, "EEEEE"),          // "S", "M", "T" …
+            fullDay: format(date, "EEE"),        // "Sun", "Mon" … (for tooltip)
+            date: format(date, "yyyy-MM-dd"),
+            count: countMap[format(date, "yyyy-MM-dd")] ?? 0,
+        }));
+
+        res.json({ stats, weekStart: weekStart.toISOString(), weekEnd: weekEnd.toISOString() });
+    } catch (err) {
+        console.error("Weekly stats error:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
