@@ -13,7 +13,7 @@ import { getWeeklyStats, type DayStat } from "../../services/statsService";
 
 type WeekOption = "current" | "last";
 
-// ── Custom tooltip ────────────────────────────────────────────────────────────
+
 const CustomTooltip = ({
     active,
     payload,
@@ -31,7 +31,7 @@ const CustomTooltip = ({
     );
 };
 
-// ── Skeleton loader ───────────────────────────────────────────────────────────
+
 const ChartSkeleton = () => (
     <div className="flex items-end gap-2 h-24 mt-4 px-2 animate-pulse">
         {Array.from({ length: 7 }).map((_, i) => (
@@ -44,7 +44,7 @@ const ChartSkeleton = () => (
     </div>
 );
 
-// ── Main component ────────────────────────────────────────────────────────────
+
 const ActivityChart = () => {
     const [week, setWeek] = useState<WeekOption>("current");
     const [data, setData] = useState<DayStat[]>([]);
@@ -71,7 +71,7 @@ const ActivityChart = () => {
 
     return (
         <div className="w-full bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-5 mt-4">
-            {/* Header */}
+
             <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-base text-slate-900 dark:text-slate-50">
                     Activity
